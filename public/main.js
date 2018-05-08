@@ -11,7 +11,6 @@ $(document).ready(function(){
         lname: $("#ajax_post>input[name='lname']").val()
       },
       success:function(data){
-    console.log("2222");
         $("#ajax_post>h1").text(data);
       }
     });
@@ -22,7 +21,6 @@ $(document).ready(function(){
         meal: $("#meal>select[name='meal']").val(),
     },
     function(data){
-    console.log("2222");
         $("#meal>h1").text(data);
     }
     );

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./js/auxcss.js"></script>
+    <script src="./js/control.js"></script>
+    <link rel="stylesheet" href="./css/mainframe.css">
+    <style type="text/css">
+        @font-face {
+            font-family: "adobe-std-b";
+            src: url(./font/adobe-std-b.otf) format("truetype");
+        }
+        p {
+            font-family: "adobe-std-b";
+        }
+</style>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <div id="header" style="background-image: url(./img/header/header_bg.png);">
+            <div>
+                <ul style="transform: translateY(20px);">
+                    <li class="floatleft"><a href="#"><img src="./img/header/back_btn.png"></img></a></li>
+                    <li class="floatleft"><a href="#"><img src="./img/header/back_btn.png"></img></a></li>
+                    <li class="floatleft"><a href="#"><img src="./img/header/back_btn.png"></img></a></li>
+                </ul>
+            </div>
+            <p class="x-center-aligned">一起吃飯吧</p>
+            <div>
+                <ul style="transform: translateY(20px);">
+                    <li class="floatright"><a href="#"><img src="./img/header/comment_btn.png"></img></a></li>
+                    <li class="floatright"><a href="#"><img src="./img/header/comment_btn.png"></img></a></li>
+                    <li class="floatright"><a href="#"><img src="./img/header/comment_btn.png"></img></a></li>
+                </ul>
+            </div>
+        </div> <!-- header -->
+
+
+        <div id="content_current" class="content">
+            <iframe id="content_loaded" src="./explore_iframe.html"></iframe>
+        </div> <!-- content -->
+        <div id="content_prev" class="content" style="transform: translate3d(-100%, 0, 0);">
+            <iframe id="content_loaded" src="./chat_iframe.html"></iframe>
+        </div> <!-- content -->
+
+
+        <footer id="footer" style="background-image: url(./img/footer/footer_bg.png)">
+            <div style="display: flex;justify-content: space-between;">
+                <div><a href="#"><img class="x-center-aligned" src="./img/footer/explore_btn.png"></img></a></div>
+                <div><a href="#"><img class="x-center-aligned" src="./img/footer/create_btn.png"></img></a></div>
+                <div><a href="#"></a></div> <!-- for alignment, dummy object -->
+                <div><a href="#"><img class="x-center-aligned" src="./img/footer/notification_btn.png"></img></a></div>
+                <div><a href="#"><img class="x-center-aligned" src="./img/footer/profile_btn.png"></img></a></div>
+            </div>
+            <a style="position: absolute;display: inline-block;height: 70px;width: 70px;bottom: 4px;left: calc(50% - 32px);" href="#"><img style="max-height: 100%;" class="x-center-aligned" src="./img/footer/match_btn.png"></img></a>
+        </footer> <!-- footer -->
+    </div> <!-- wrapper -->
+
+
+</body>
+
+</html>

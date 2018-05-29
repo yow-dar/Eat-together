@@ -1,29 +1,44 @@
 $(document).ready(function(){
 
-  $("#meal button").click(function(e){
+  $("#signin").click(function(e){
     e.preventDefault();
-/*
-    $.ajax({
-      method:"post",
-      url:"./ajax_post_data",
-      data:{
-        fname: $("#ajax_post>input[name='fname']").val(),
-        lname: $("#ajax_post>input[name='lname']").val()
-      },
-      success:function(data){
-        $("#ajax_post>h1").text(data);
-      }
-    });
-    */
+    
     $.post(
-    "/ajax_post_data",
+    "/signin",
     {
-        meal: $("#meal>select[name='meal']").val(),
+        _account: $("input[name='account']").val(),
+        _password: $("input[name='password']").val(),
     },
     function(data){
-        $("#meal>h1").text(data);
     }
     );
-    //setTimeout($("#ajax_post>h1").html("loading"),0);
   });
+  
+  $("#enroll").click(function(e){
+    e.preventDefault();
+  });
+
+  function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+        
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    //console.log("ID Token: " + id_token);
+        
+    $.post(
+      "/tokensignin",
+      {
+      idtoken:id_token
+      },
+      function(){}
+      );        
+  };
+
+  function signOut(){
+    var auth2=gapi.auth2.getAuthInstance();
+    auth2.signOut(function(){
+    console.log("User sign out");
+    });
+  }    
 });

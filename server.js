@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
 var food = require('./food.json');
-const port = 10021;
+const port = 10025;
 
 app.use(express.static(__dirname + '/public'));//upload static files
 

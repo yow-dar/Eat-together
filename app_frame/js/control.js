@@ -87,3 +87,12 @@ function redirectPage(page) {
     console.log(page);
     adjustUIControl();
 }
+
+function back_btn_clicked() {
+    if( current_loaded_page == 'MeetingInfo' ) {
+        redirectPage('Explore');
+    }
+    else if( current_loaded_page == 'ChatRoom' ) {
+        redirectPage('MeetingInfo');
+    }
+}

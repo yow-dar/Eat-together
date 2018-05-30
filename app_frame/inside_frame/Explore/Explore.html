@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style type="text/css">
+        @font-face {
+            font-family: "adobe-std-b";
+            src: url(./../../font/adobe-std-b.otf) format("truetype");
+        }
+        p {
+            font-family: "adobe-std-b";
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+
+        });
+        var meeting_info = {
+            id: '1',
+            title: '一起share漢堡 !',
+            restaurant: 'Kook 美式餐廳',
+            date: '7月6號',
+            time: '9pm-10pm',
+            price: '200',
+            people: '6'
+        };
+        function returnSelectedMeeting() {
+            let res = meeting_info;
+            res.message_name = 'SelectMeeting';
+            window.parent.postMessage(res, '*');
+        }
+
+    </script>
+
+    <!-- CSS aux -->
+    <script>
+        $(window).on('load', function() {
+            CSSAuxiliary();
+        });
+
+        function CSSAuxiliary() {
+            
+        }
+    </script>
+
+    <style>
+        html,body,#wrapper {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #wrapper {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        p {
+            display: inline-block;
+            margin: 0;
+        }
+
+        .group {
+            margin: 16px;
+        }
+
+        .item {
+            width: 100%;
+            height: 120px;
+            background-color: white;
+            margin-bottom: 16px;
+            display: flex;
+        }
+
+        .label {
+            max-height: 15px;
+            transform: translate(-1px, 15px);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper" style="background-image: url(./img/bg.png);background-repeat: no-repeat;background-size: cover;">
+        <div class="group" id="popular">
+            <div> <!-- header text -->
+                <p style="font-size: 14pt;">人氣聚會</p>
+                <a href="javascript:void(0);"><p style="color: lightgray;font-size: 10pt;float: right;transform: translateY(6pt);">更多</p></a>
+            </div>
+
+            <div> <!-- bundle all item -->
+                <div class="item" style="background-image: url(./img/box1.png);background-repeat: no-repeat;background-size: cover;">
+                    <img class="label" src="./img/label.png"></img>
+                </div>
+                <a href="javascript:void(0);" onclick="returnSelectedMeeting();"><div class="item" style="background-image: url(./img/box2.png);background-repeat: no-repeat;background-size: cover;">
+                    <img class="label" src="./img/label_star.png"></img>
+                </div></a>
+                <div class="item" style="background-image: url(./img/box3.png);background-repeat: no-repeat;background-size: cover;">
+                    <img class="label" src="./img/label.png"></img>
+                </div>
+            </div>
+        </div>
+
+        <div class="group" id="nearby">
+            <div> <!-- header text -->
+                <p style="font-size: 14pt;">附近的聚會</p>
+                <a href="javascript:void(0);"><p style="color: lightgray;font-size: 10pt;float: right;transform: translateY(6pt);">更多</p></a>
+            </div>
+
+            <div> <!-- bundle all item -->
+                <div class="item" style="background-image: url(./img/box1.png);background-repeat: no-repeat;background-size: cover;">
+                    <img class="label" src="./img/label.png"></img>
+                </div>
+                <div class="item" style="background-image: url(./img/box2.png);background-repeat: no-repeat;background-size: cover;">
+                    <img class="label" src="./img/label.png"></img>
+                </div>
+                <div class="item" style="background-image: url(./img/box3.png);background-repeat: no-repeat;background-size: cover;">
+                    <img class="label" src="./img/label.png"></img>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

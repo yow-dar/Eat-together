@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-scope" content="profile email">
+    <title>Eat together</title>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+    <script>
+      const fm = document.getElementsByTagName('meta')[0]
+      const m = document.createElement('meta')
+      $.post(
+          '/give_id',
+          {ccc:null},
+          function(data){
+            m.content = data + '.apps.googleusercontent.com';
+          }
+        )
+      m.name = 'google-signin-client_id'
+      fm.parentNode.insertBefore(m, fm)
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+  </head>
+
+  <body>
+    <div id="top_frame"></div>
+    <div id="center_frame">
+    <frame>
+      <input name="account" placeholder="'帳號"  autocomplete="off">
+      <input name="password" placeholder="密碼" autocomplete="off">
+      <button id="enroll">註冊</button>
+      <button id="signin">登入</button>
+    </frame>
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    </div>
+    <div id="bottom_frame"></div>
+    <script id="frame_js" src="main.js"></script>
+  </body>
+</html>

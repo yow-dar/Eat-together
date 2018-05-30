@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-scope" content="profile email">
+    <title>Eat together</title>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+    <script>
+      const fm = document.getElementsByTagName('meta')[0]
+      const m = document.createElement('meta')
+      $.post(
+          '/give_id',
+          {ccc:null},
+          function(data){
+            m.content = data + '.apps.googleusercontent.com';
+          }
+        )
+      m.name = 'google-signin-client_id'
+      fm.parentNode.insertBefore(m, fm)
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+  </head>
+
+  <body>
+    <div id="top_frame"></div>
+    <div id="center_frame">
+      <h1>讓我們更認識你/妳!</h1>
+      <frame id="enroll_2">
+        <label>姓名</label><input placeholder="請輸入你的姓名" name="account_set" autocomplete="off">
+        <label>生日</label><input placeholder="請輸入你的生日" name="password_set" autocomplete="off">
+        <label>性別</label><input placeholder="請輸入你的性別" name="password_confirm" autocomplete="off">
+        <label>所在地</label><input placeholder="請選擇妳的所在地" name="email" autocomplete="off">
+        <button id="enroll_2_next">下一步<button>
+      </frame>
+    </div>
+    <div id="bottom_frame"></div>
+    <script id="frame_js" src="main.js"></script>
+  </body>
+</html>

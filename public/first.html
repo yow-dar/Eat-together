@@ -5,6 +5,7 @@
     <meta name="google-signin-scope" content="profile email">
     <title>Eat together</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="first.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
     <script>
       const fm = document.getElementsByTagName('meta')[0]
@@ -24,14 +25,21 @@
 
   <body>
     <div id="top_frame"></div>
+    <img id="logo" src="./logo-01.png">  
     <div id="center_frame">
     <frame>
-      <input name="account" placeholder="'帳號"  autocomplete="off">
-      <input name="password" placeholder="密碼" autocomplete="off">
+      <div id="input_div">
+        <input name="account" placeholder="'帳號"  autocomplete="off">
+        <input name="password" placeholder="密碼" type="password" autocomplete="off">
+      </div>
       <button id="enroll">註冊</button>
       <button id="signin">登入</button>
     </frame>
+    <img class="signin_icon"  src="./fb_signin.png">
+    <div class="signin_icon_div">
+    <img src="./google_signin.png">
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    </div>
     </div>
     <div id="bottom_frame"></div>
     <script id="frame_js" src="main.js"></script>

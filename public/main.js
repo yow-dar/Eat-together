@@ -2,7 +2,9 @@ $(document).ready(function(){
 
   $("#signin").click(function(e){
     e.preventDefault();
-    
+      window.location.replace("/");
+      //window.location="/";
+   /* 
     $.post(
     "/signin",
     {
@@ -14,6 +16,7 @@ $(document).ready(function(){
       window.location.replace("/");
     }
     );
+    */
   });
   
   $("#enroll").click(function(e){
@@ -31,22 +34,6 @@ $(document).ready(function(){
   });
     
 
-  function onSignIn(googleUser) {
-    // Useful data for your client-side scripts:
-    var profile = googleUser.getBasicProfile();
-        
-    // The ID token you need to pass to your backend:
-    var id_token = googleUser.getAuthResponse().id_token;
-    //console.log("ID Token: " + id_token);
-        
-    $.post(
-      "/tokensignin",
-      {
-      idtoken:id_token
-      },
-      function(){}
-      );        
-  };
 
   function signOut(){
     var auth2=gapi.auth2.getAuthInstance();
@@ -93,3 +80,21 @@ $(document).ready(function(){
 ////////////////other
 });
 
+  function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+        
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+        
+    $.post(
+      "/tokensignin",
+      {
+      idtoken:id_token
+      },
+      function(){
+      //window.location.replace("/");
+      }
+      );        
+  };

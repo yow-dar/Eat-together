@@ -76,9 +76,9 @@ async function verify(){
   });
   const payload = ticket.getPayload();
   const userid = payload['sub'];
-//console.log("log in : "+userid);
+res.send("OK");
+console.log("log in : "+userid);
 };
 verify().catch(console.error);
-
 });
 app.listen(port);

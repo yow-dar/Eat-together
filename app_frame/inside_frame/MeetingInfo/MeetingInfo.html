@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style type="text/css">
+        @font-face {
+            font-family: "adobe-std-b";
+            src: url(./../../font/adobe-std-b.otf) format("truetype");
+        }
+        p {
+            font-family: "adobe-std-b";
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            requestLocationInfo();
+            requestMeetingInfo();
+        });
+
+        var location_info = {
+            name: 'Kook 美式餐廳',
+            address: '701 台南市東區中華東路336巷43弄20號',
+            lat: '22.9751295',
+            lng: '120.2186233'
+        };
+        var meeting_info = {
+            id: '1',
+            title: '一起share漢堡 !',
+            restaurant: 'Kook 美式餐廳',
+            date: '7月6號',
+            time: '9pm-10pm',
+            price: '200',
+            people: '6'
+        };
+
+        // send ajax to server to request location info about this meeting
+        function requestLocationInfo() {
+            $('#address>p>u').text(location_info.address);
+            getStaticMap();
+        }
+
+        function getStaticMap() {
+            let src = "https://maps.googleapis.com/maps/api/staticmap";
+            let center = location_info.lat + ',' + location_info.lng;
+            let size = parseInt(window.innerWidth) + 'x' + parseInt(window.innerWidth/2);
+            let markers = 'color:red%7Clabel:C%7C' + location_info.lat + ',' + location_info.lng;
+            let key = 'AIzaSyD9JH-G8flpioPqLfH226ufYET8qoRuu-Q';
+            src += '?center=' + center;
+            src += '&zoom=14';
+            src += '&size=' + size;
+            src += '&markers=' + markers;
+            src += '&key=' + key;
+            $('#static_map').attr('src', src);
+        }
+
+        // ajax to request meeting info (meeting id, meeting title, meeting restaurant, time, price, people)
+        function requestMeetingInfo() {
+            $('#meeting_title').text( meeting_info.title );
+            $('#restaurant').text( meeting_info.restaurant );
+            $('#date').text( meeting_info.date );
+            $('#time').text( meeting_info.time );
+            $('#price').text( meeting_info.price + '元');
+            $('#people').text( meeting_info.people + '人用餐');
+
+            $('#comfirm_title').text( meeting_info.title );
+            $('#comfirm_detail').text( meeting_info.restaurant + ',' + meeting_info.date + ' ' + meeting_info.time );
+            $('#comfirm_address').text( location_info.address );
+        }
+
+        // return Join to parent window by postMessage
+        function returnJoin() {
+            let res = meeting_info;
+            res.message_name = 'JoinMeeting';
+            window.parent.postMessage(res, '*');
+        }
+
+        function comfirmJoin() {
+            $('#shading').show();
+            $('#comfirm').show();
+        }
+        function cancelJoin() {
+            $('#shading').hide();
+            $('#comfirm').hide();   
+        }
+    </script>
+
+    <!-- CSS aux -->
+    <script>
+        $(window).on('load', function() {
+            CSSAuxiliary();
+        });
+
+        function CSSAuxiliary() {
+            
+            // insert spacer
+            if( $('#meeting_img').height() + $('#background_cover').height() < parseInt(window.innerHeight ) ) {
+                let spacer = document.createElement('div');
+                $(spacer).css('height', window.innerHeight - ($('#meeting_img').height() + $('#background_cover').height()));
+                $('#background_cover').append(spacer);
+            }
+            else {
+                let spacer = document.createElement('div');
+                $(spacer).css('height', '40px');
+                $('#background_cover').append(spacer);
+            }
+        }
+    </script>
+
+    <style>
+        html,body,#wrapper {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #wrapper {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        p {
+            display: inline-block;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <img id="meeting_img" src="./img/burger.png" style="margin-bottom: -4px;max-width: 100%;"></img>
+        <div id="background_cover" style="background-image: url(./img/bg.png);background-repeat: no-repeat;background-size: cover;height: auto;"> <!-- for background -->
+            <div id="meeting_info" style="height: 100px;">
+                <p id="meeting_title" style="margin: 4px 0px 0px 40px;font-size: 17pt;"></p>
+                <br>
+                <p id="restaurant" style="margin: -8px 0px 0px 40px;color: lightgray;"></p>
+            </div>
+            <div id="detail_info" style="height: 125px;display: flex;">
+                <div id="time_info" style="width: 33.33%;height: 80%;text-align: center;border-style: hidden solid hidden hidden;border-width: 1pt;border-color: lightgray;">
+                    <img src="./img/time.png" style="display: block;max-height: 40px;margin-left: auto;margin-right: auto;"></img>
+                    <p id="date" style="font-size: 10pt"></p>
+                    <br>
+                    <p id="time" style="font-size: 10pt;margin-top: -4px;"></p>
+                </div>
+                <div id="price_info" style="width: 33.33%;height: 80%;text-align: center;border-style: hidden solid hidden hidden;border-width: 1pt;border-color: lightgray;">
+                    <img src="./img/price.png" style="display: block;max-height: 40px;margin-left: auto;margin-right: auto;"></img>
+                    <br>
+                    <p id="price" style="font-size: 10pt"></p>
+                </div>
+                <div id="people_info" style="width: 33.33%;height: 80%;text-align: center;">
+                    <img src="./img/people.png" style="display: block;max-height: 40px;margin-left: auto;margin-right: auto;"></img>
+                    <br>
+                    <p id="people" style="font-size: 10pt"></p>
+                </div>
+            </div>
+            <div id="map">
+                <img id="static_map" style="margin-bottom: -4px;"></img>
+                <div id="address" style="height: 30pt;text-align: center;background-image: url(./img/address_bg.png); background-repeat: no-repeat;background-size: cover;">
+                    <img src="./img/marker.png" style="max-height: 16pt;transform: translate(-5px, 5px);">
+                    <p style="font-size: 10pt;margin-top: 6px;color: lightgray;"><u>701台南市東區中華東路一段398號</u></p>
+                </div>
+            </div>
+
+
+            <a href="javascirpt:void(0);" onclick="comfirmJoin()"><img src="./img/join_btn.png" style="max-height: 30px;position: absolute;bottom: 4px;right: 4px;"></img></a>
+        </div>
+    </div>
+
+    <div id="comfirm" style="text-align: center;display: none;z-index: 2;position: absolute;top: 30%;left: calc(50% - 120px);width: 240px;height: 180px;border-style: solid;border-width: 2px;border-color: yellow;border-radius: 20px;background-color: white;">
+        <br>
+        <p id="comfirm_title" style="font-size: 14pt;"></p>
+        <br>
+        <p id="comfirm_detail" style="font-size: 8pt;"></p>
+        <br>
+        <p id="comfirm_address" style="font-size: 8pt;"></p>
+        <a href="javascirpt:void(0);" onclick="returnJoin()"><img src="./img/comfirm_btn.png" style="max-height: 30px;position: absolute;top: 55%;left: calc(50% - 102px);"></img></a>
+        <a href="javascirpt:void(0);" onclick="cancelJoin()"><img src="./img/cancel_btn.png" style="max-height: 30px;position: absolute;top: 75%;left: calc(50% - 102px);"></img></a>
+    </div>
+    <div id="shading" style="display: none;z-index: 1;position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.6)"></div>
+</body>
+
+</html>

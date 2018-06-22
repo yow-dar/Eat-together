@@ -2,21 +2,21 @@ $(document).ready(function(){
 
   $("#signin").click(function(e){
     e.preventDefault();
-      window.location.replace("/");
-      //window.location="/";
-   /* 
+    
     $.post(
     "/signin",
     {
         _account: $("input[name='account']").val(),
         _password: $("input[name='password']").val(),
+        _email: $("input[name='email']").val(),
     },
     function(data){
-      if(data)
+      console.log(data);
+      if(data == "OK")
       window.location.replace("/");
     }
     );
-    */
+    
   });
   
   $("#enroll").click(function(e){
@@ -56,6 +56,8 @@ $(document).ready(function(){
       }
       ,
       function(data){
+        console.log(data);
+        if(data == "OK")
         window.location.replace("/enroll_2.html");
        //$('#center_frame').html(data);
        //$('#frame_js').attr("src","enroll_2.js")
@@ -93,8 +95,11 @@ $(document).ready(function(){
       {
       idtoken:id_token
       },
-      function(){
-      //window.location.replace("/");
+      function(data){
+        if(data == "OK")
+        window.location.replace("/");
+        else if(data == "google_enroll")
+        window.location.replace("/enroll_2.html");
       }
       );        
   };

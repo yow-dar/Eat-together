@@ -8,7 +8,7 @@ var mysql = require('mysql');
 var inf = require('./database_inf.json');
 var bodyParser = require('body-parser');
 var food = require('./food.json');
-const port = 10030;
+const port = 10021;
 /*
 var connection = mysql.createConnection({
   host:inf._host,
@@ -70,11 +70,13 @@ app.post('/into_enroll_2',function(req,res){
     var sql = "SELECT * FROM user WHERE account = ?";
     connection.query(sql,[account],function(err,result){
       if(result.length == 0){
-   /*
-        var 
+   
+        var user_id = "";
         for(let i=0;i<10;i++){
-        
-        }*/
+        user_id += Math.floor(Math.random()*10);
+        }
+        console.log(user_id);
+
         var value=[account, password, email];
         var sql="INSERT INTO user (account, passwd, email) VALUES ?";
         connection.query(sql,[[value]],function(err,result){
@@ -109,14 +111,14 @@ app.post('/tokensignin',function(req,res){
       audience:client_id.id +".apps.googleusercontent.com",
     });
     const payload = ticket.getPayload();
-    const userid = payload['sub'];
+    const google_userid = payload['sub'];
     var email = "";//not complete yet 
-    console.log("log in : "+userid);
+    console.log("log in : "+google_userid);
   
     pool.getConnection(function(err,connection){
       if(err) throw err;
       var sql = "SELECT * FROM user WHERE account = ?";
-      connection.query(sql,[userid],function(err,result){
+      connection.query(sql,[google_userid],function(err,result){
         if(err) throw err;
         console.log(result);
         if(result.length == 1){        
@@ -124,7 +126,7 @@ app.post('/tokensignin',function(req,res){
         }
         else if(result.length == 0){
         
-          var value=[userid, email];
+          var value=[google_userid, email];
           var sql="INSERT INTO user (account, email) VALUES ?";
           connection.query(sql,[[value]],function(err,result){
             if(err) throw err;

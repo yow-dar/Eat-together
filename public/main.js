@@ -1,5 +1,7 @@
+var HHHHHH;
 $(document).ready(function(){
-
+  console.log("start");
+  console.log(HHHHHH);
   $("#signin").click(function(e){
     e.preventDefault();
     
@@ -11,6 +13,7 @@ $(document).ready(function(){
         _email: $("input[name='email']").val(),
     },
     function(data){
+      HHHHHH=data;
       console.log(data);
       if(data == "OK")
       window.location.replace("/");
@@ -25,8 +28,8 @@ $(document).ready(function(){
     '/into_enroll',
     function(data){
     console.log("post");
-      //$("#center_frame").html(data);
-      window.location.replace("/enroll_1.html");
+      $("#center_frame").load("./enroll_1_body.html");
+      //window.location.replace("/enroll_1.html");
       //$('#frame_js').remove();
       //$('body').append("<script id='frame_js' src='enroll/enroll_1.js'></script>");
     }

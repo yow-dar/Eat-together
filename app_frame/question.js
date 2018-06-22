@@ -23,6 +23,18 @@ var question[12] = ["在荷據時期，荷蘭人築城防禦，用來做為商�
                     "臺南孔子廟是由誰所倡議建造?",
                     "府城「廟墓合一」的古蹟是?",
                     ];
+var check_answer = [false,false,false,true,
+                    true,false,false,false,
+                    true,false,false,false,
+                    false,false,false,true,
+                    false,true,false,false,
+                    false,false,true,false,
+                    false,true,false,false,
+                    true,false,false,false,
+                    false,false,false,true,
+                    false,true,false,false,
+                    true,false,false,false,
+                    false,true,false,false];
 function getRandomArray(1, 20, 20) {  
     var rdmArray = [n];   
         for(var i=0; i<n; i++) 
@@ -39,4 +51,16 @@ function getRandomArray(1, 20, 20) {
       }
       rdmArray = Math.floor(rdmArray);
     return rdmArray;
+}
+function CheckAnswer(question_number_random,answer1_bool,answer2_bool){
+  var question_number = question_number_random;
+  
+
+
+
+
+
+
+
+
 }

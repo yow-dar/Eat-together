@@ -8,17 +8,11 @@ var mysql = require('mysql');
 var inf = require('./database_inf.json');
 var bodyParser = require('body-parser');
 var food = require('./food.json');
-const port = 10021;
-/*
-var connection = mysql.createConnection({
-  host:inf._host,
-  user:inf._user,
-  password:inf._password,
-  database:inf._user
-});
-*/
+const port = 10030;
+
+
 var pool = mysql.createPool({
-  connectionLimit : 100000,
+  connectionLimit : 10,
   host:inf._host,
   user:inf._user,
   password:inf._password,
@@ -43,24 +37,18 @@ app.post('/signin',function(req,res){
       console.log(result);
       if(result.length == 1){        
         if(password == result[0].passwd)
-          res.send("OK");
+          res.send({result:"OK", inf:result.user_id});
         else
-          res.send("wrong passwd");
+          res.send({result:"wrong passwd"});
       }
-      else if(result.length == 0) res.send("wrong account");
+      else if(result.length == 0) res.send({result:"wrong account"});
       else console.log("identical account");
+      connection.release();
     });
-    connection.release();
   });
   
 });
-app.post('/into_enroll',function(req,res){
-  //fs.readFile('public/enroll/enroll_1.html',function(err,data){
-  //if(err) throw err;
-  //res.send(data);
-  //});
-  res.send("OK");
-});
+
 app.post('/into_enroll_2',function(req,res){
   var account=req.body._account;
   var password=req.body._password;
@@ -72,36 +60,50 @@ app.post('/into_enroll_2',function(req,res){
       if(result.length == 0){
    
         var user_id = "";
-        for(let i=0;i<10;i++){
-        user_id += Math.floor(Math.random()*10);
+        var id_unity = false;
+        
+        do{
+          user_id = user_id_generate();
+          sql = "SELECT * FROM user WHERE user_id = ?";
+          connection.query(sql,[user_id],function(err,result){
+            if(result.length ==0) id_unity=false;
+          });
         }
+        while(id_unity)
         console.log(user_id);
-
-        var value=[account, password, email];
-        var sql="INSERT INTO user (account, passwd, email) VALUES ?";
+        
+        var value=[user_id, account, password, email];
+        sql="INSERT INTO user (user_id, account, passwd, email) VALUES ?";
         connection.query(sql,[[value]],function(err,result){
           if(err) throw err;
           console.log("insert");
+          connection.release();
         });
-        res.send("OK");
+        res.send({result:"OK", inf:user_id});
       }
-      else res.send("account exists");
+      else{
+        res.send({result:"account exists"});
+        connection.release();
+      }
     });
-    
-    connection.release();
   });
-  //fs.readFile('public/enroll/enroll_2.html',function(err,data){
-  //if(err) throw err;
-  //res.send(data);
-  //});
 });
 
 app.post('/enroll_end',function(req,res){
+  console.log(req.body);
+  var value = [req.body._user_name, req.body._birthday, req.body._gender, req.body._address, req.body.user_id];
+  pool.getConnection(function(err,connection){
+    var sql = "UPDATE user SET user_name = ?, birthday = ?, gender = ?, address = ? WHERE user_id = ?";
+    connection.query(sql,value,function(err,result){
+      if(err) throw err;  
+      connection.release();
+    });
+  });
   res.send("OK");
 });
 
 app.post('/give_id',function(req,res){
-res.send(client_id.id);
+  res.send(client_id.id);
 });
 
 app.post('/tokensignin',function(req,res){
@@ -122,24 +124,49 @@ app.post('/tokensignin',function(req,res){
         if(err) throw err;
         console.log(result);
         if(result.length == 1){        
-            res.send("OK");
+            res.send({result:"OK", inf:result.user_id});
+            connection.release();
         }
         else if(result.length == 0){
         
-          var value=[google_userid, email];
-          var sql="INSERT INTO user (account, email) VALUES ?";
+          var user_id = "";
+          var id_unity = false;
+          do{
+            user_id = user_id_generate();
+            sql = "SELECT * FROM user WHERE user_id = ?";
+            connection.query(sql,[user_id],function(err,result){
+              if(result.length ==0) id_unity=false;
+            });
+          }
+          while(id_unity)
+          console.log(user_id);
+       
+          var value=[user_id, google_userid, email];
+          var sql="INSERT INTO user (user_id, account, email) VALUES ?";
           connection.query(sql,[[value]],function(err,result){
             if(err) throw err;
             console.log("insert");
           });
-          res.send("google_enroll");
+          res.send({result:"google_enroll", inf:user_id});
+          connection.release();
         }
-        else console.log("identical account");
+        else{
+          console.log("identical account");
+          connection.release();
+        }
       });
-      connection.release();
     });
   
   };
   verify().catch(console.error);
 });
 app.listen(port);
+
+//function----------------------------------------------
+function user_id_generate(){
+  let user_id=""
+  for(let i=0;i<10;i++){
+    user_id += Math.floor(Math.random()*10);    
+  }
+  return user_id;
+};

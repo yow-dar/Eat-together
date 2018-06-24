@@ -1,7 +1,5 @@
-var HHHHHH;
+var user_id;
 $(document).ready(function(){
-  console.log("start");
-  console.log(HHHHHH);
   $("#signin").click(function(e){
     e.preventDefault();
     
@@ -10,13 +8,14 @@ $(document).ready(function(){
     {
         _account: $("input[name='account']").val(),
         _password: $("input[name='password']").val(),
-        _email: $("input[name='email']").val(),
     },
     function(data){
-      HHHHHH=data;
       console.log(data);
-      if(data == "OK")
+      if(data.result == "OK"){
       window.location.replace("/");
+      user_id = data.inf;
+      console.log(user_id);
+      }
     }
     );
     
@@ -24,16 +23,8 @@ $(document).ready(function(){
   
   $("#enroll").click(function(e){
     console.log("enroll");
-    $.post(
-    '/into_enroll',
-    function(data){
-    console.log("post");
-      $("#center_frame").load("./enroll_1_body.html");
-      //window.location.replace("/enroll_1.html");
-      //$('#frame_js').remove();
-      //$('body').append("<script id='frame_js' src='enroll/enroll_1.js'></script>");
-    }
-    );
+    $("#center_frame").load("./enroll_1.html");
+    $("link").attr("href","");
   });
     
 
@@ -46,7 +37,7 @@ $(document).ready(function(){
   }    
 ////////////////other
 ////////////////enroll_1
-  $('#enroll_1_next').click(function(e){  
+  $(document).on('click','#enroll_1_next',function(e){  
     e.preventDefault();
     let _account = $("input[name='account_set']").val();
     let _password = $("input[name='password_set']").val();
@@ -60,25 +51,30 @@ $(document).ready(function(){
       ,
       function(data){
         console.log(data);
-        if(data == "OK")
-        window.location.replace("/enroll_2.html");
-       //$('#center_frame').html(data);
-       //$('#frame_js').attr("src","enroll_2.js")
+        if(data.result == "OK"){
+          $("#center_frame").load("./enroll_2.html");
+          user_id = data.inf;
+          console.log("userid = " + user_id);
+        }
       }
       );
     }
   });
 
   ////////////////enroll_2
-  $('#enroll_2_next').click(function(e){  
+  $(document).on('click','#enroll_2_next',function(e){  
     e.preventDefault();
-    
     $.post(
     '/enroll_end',
+    {
+        user_id:user_id,
+        _user_name: $("input[name='name']").val(),
+        _birthday: $("input[name='birthday']").val(),
+        _gender: $("input[name='gender']").val(),
+        _address: $("input[name='address']").val(),
+    },
     function(data){
       window.location.replace("/");
-     //$('#center_frame').html(data);
-     //$('#frame_js').attr("src","enroll_2.js")
     }
     );
   });
@@ -99,10 +95,16 @@ $(document).ready(function(){
       idtoken:id_token
       },
       function(data){
-        if(data == "OK")
-        window.location.replace("/");
-        else if(data == "google_enroll")
-        window.location.replace("/enroll_2.html");
+        if(data.result == "OK"){
+          user_id = data.inf;
+          console.log(user_id);
+          window.location.replace("/");
+        }
+        else if(data.result == "google_enroll"){
+          user_id = data.inf;
+          $("#center_frame").load("./enroll_2.html");
+          $("link").attr("href","");
+        }
       }
       );        
   };

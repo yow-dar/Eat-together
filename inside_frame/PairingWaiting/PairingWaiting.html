@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <style type="text/css">
+        html,body {
+            -webkit-overflow-scrolling: touch;
+        }
+        @font-face {
+            font-family: "adobe-std-b";
+            src: url(./../../font/adobe-std-b.otf) format("truetype");
+        }
+        p {
+            font-family: "adobe-std-b";
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            //returnRequireFullScreen();
+            //window.onbeforeunload = returnLeaveFullScreen;
+             // <body onbeforeunload="returnLeaveFullScreen()">
+        });
+        /*
+        function returnRequireFullScreen() {
+            let res = {
+                'fullscreen': 3 //bottom fullscreen
+            }
+            res.message_name = 'FullScreenControl';
+            window.parent.postMessage(res, '*');
+        }
+        function returnLeaveFullScreen() {
+            let res = {
+                'fullscreen': 0
+            }
+            res.message_name = 'FullScreenControl';
+            window.parent.postMessage(res, '*');
+        }
+        */
+
+        function returnCancel() {
+            let res = {
+                'cancel': 1
+            }
+            res.message_name = 'PairingWaiting_Cancel';
+            window.parent.postMessage(res, '*');
+        }
+        function returnSucceeded() {
+            let res = {
+                'succeeded': 1
+            }
+            res.message_name = 'PairingWaiting_Succeeded';
+            window.parent.postMessage(res, '*');
+        }
+
+        $(window).on('load', setTimeout( function() {
+            returnSucceeded();
+        }, 5000));
+
+    </script>
+
+    <script>
+        function failPairing() {
+            $('#darkmask').addClass( 'dark' );
+            $('#failedmsg').show();
+        }
+    </script>
+
+    <style>
+        html,body,#wrapper {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #wrapper {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        p {
+            display: inline-block;
+            margin: 0;
+        }
+        #orbit {
+            max-width: 25px;
+            z-index: 1;
+            position: absolute;
+            left: calc(50% - 12.5px);
+            top: 25px;
+            transform: rotate(0deg) translateX(100px) rotate(0deg);
+
+            -webkit-animation: orbit_animation 2s linear infinite;
+            -moz-animation: orbit_animation 2s linear infinite;
+            -o-animation: orbit_animation 2s linear infinite;
+            animation: orbit_animation 2s linear infinite;
+        }
+        @-webkit-keyframes orbit_animation {
+            from {  -webkit-transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            to   {  -webkit-transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+        @-moz-keyframes orbit_animation {
+            from {  -moz-transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            to   {  -moz-transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+        @-o-keyframes orbit_animation {
+            from {  -o-transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            to   {  -o-transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+        @keyframes orbit_animation {
+            from {  transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            to   {  transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+        #halo {
+            position: absolute;
+            left: calc(50% - 37.5px);
+            max-width: 75px;
+            opacity: 0;
+            transform: scale(1); opacity: 0;
+            -webkit-animation: halo_animation 2s linear infinite;
+            -moz-animation: halo_animation 2s linear infinite;
+            -o-animation: halo_animation 2s linear infinite;
+            animation: halo_animation 2s linear infinite;
+        }
+        @-webkit-keyframes halo_animation {
+            0%    {  -webkit-transform: scale(1); opacity: 0; }
+            70%   {  -webkit-transform: scale(1.35); opacity: 1; }
+            90%   {  -webkit-transform: scale(1.5); opacity: 0; }
+            100%  {  -webkit-transform: scale(1); opacity: 0; }
+        }
+        @-moz-keyframes halo_animation {
+            0%    {  -moz-transform: scale(1); opacity: 0; }
+            70%   {  -moz-transform: scale(1.35); opacity: 1; }
+            90%   {  -moz-transform: scale(1.5); opacity: 0; }
+            100%  {  -moz-transform: scale(1); opacity: 0; }
+        }
+        @-o-keyframes halo_animation {
+            0%    {  -o-transform: scale(1); opacity: 0; }
+            70%   {  -o-transform: scale(1.35); opacity: 1; }
+            90%   {  -o-transform: scale(1.5); opacity: 0; }
+            100%  {  -o-transform: scale(1); opacity: 0; }
+        }
+        @keyframes halo_animation {
+            0%    {  transform: scale(1); opacity: 0; }
+            70%   {  transform: scale(1.35); opacity: 1; }
+            90%   {  transform: scale(1.5); opacity: 0; }
+            100%  {  transform: scale(1); opacity: 0; }
+        }
+
+        .mask {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1000;
+        }
+        .dark {
+            z-index: 500;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div style="z-index: -1;position: absolute;top: 25%;width: 100%;text-align: center;">
+            <img src="./img/meal.png" style="max-width: 75px;"></img>
+            <img id="orbit" src="./img/orbit.png"></img>
+            <img id="halo" src="./img/halo.png"></img>
+        </div>
+        <div style="position: absolute;top: 55%;width: 100%;text-align: center;">
+            <p style="color: gray;font-size: 14pt;">配對中</p>
+        </div>
+        <div style="position: absolute;top: 75%;width: 100%;text-align: center;">
+            <a href="javascript:void(0);" onclick="returnCancel()"><img src="./img/cancel_btn.jpg" style="max-width: 125px;"></img></a>
+        </div>
+        <div id="darkmask" class="mask"></div>
+
+        <div id="failedmsg" style="display: none;position: absolute;z-index: 1000;left: calc(50% - 125px);top: 20%;width: 249px;height: 256px;margin:  auto;background-image: url(./img/fail.png);background-size: cover;">
+            <a href="javascript:void(0);" onclick="returnCancel()"><img src="./img/retry_btn.png" style="max-width: 125px;position: absolute;left: calc(50% - 62.5px);bottom: -10px;"></img></a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -58,6 +58,41 @@
             res.message_name = 'ChatRoom_EnterPKGame';
             window.parent.postMessage(res, '*');
         }
+
+        function returnEnterViewRestaurant(id) {
+            // id = 1~3 (restaurant cell id)
+            let res = {
+                'Restaurant_id' : 12
+            }
+            res.message_name = 'ChatRoom_EnterViewRestaurant';
+            window.parent.postMessage(res, '*');
+        }
+    </script>
+
+    <script>
+        function showRestaurants() {
+            let darkmask = $('#darkmask');
+            darkmask.addClass( 'dark' );
+            darkmask.click( function(e) {
+                darkmask.removeClass( 'dark' );
+                darkmask.css('background-color', 'rgba(0, 0, 0, 0)');
+                darkmask.off('click');
+
+                $('#chat_history').show();
+                $('#pkgame').show();
+                $('#input_area').show();
+                $('#showrestaurant').show();
+
+                $('#restaurant_info').hide();
+            });
+
+            $('#chat_history').hide();
+            $('#pkgame').hide();
+            $('#input_area').hide();
+            $('#showrestaurant').hide();
+
+            $('#restaurant_info').show();
+        }
     </script>
 
     <style>
@@ -133,7 +168,21 @@
         }
         .dark {
             z-index: 500;
-            background-color: rgba(0, 0, 0, 0.6);
+            /*background-color: rgba(0, 0, 0, 0.6);*/
+        }
+
+        .restaurant_cell {
+            margin: 10px;
+            display: inline-block;
+            width: 80%;
+            height: 90%;
+            box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+            border-style: hidden;
+            border-radius: 5px;
+        }
+        .restaurant_cell > img {
+            width: 100%;
+            max-height: 150px;
         }
     </style>
 </head>
@@ -141,7 +190,7 @@
 <body>
     <div id="wrapper">
         <div id="darkmask" class="mask"></div>
-        <div onclick="" style="height: 30px;width: 100%;background-image: url(./img/bar.png);background-size: cover;background-repeat: no-repeat;text-align: center;">
+        <div id="showrestaurant" onclick="showRestaurants()" style="height: 30px;width: 100%;background-image: url(./img/bar.png);background-size: cover;background-repeat: no-repeat;text-align: center;">
             <img src="./img/bar_icon.png" style="max-height: 15px;margin-top: 7px;">
             <p style="color: white;font-size: 8pt;transform: translateY(-3px);">查看我們推薦的私房老店</p>
         </div>
@@ -160,7 +209,7 @@
                 </div>
             </div>
         </div>
-        <div style="width: 100%;text-align: center;">
+        <div id="pkgame" style="width: 100%;text-align: center;">
             <a href="javascript:void(0);" onclick="returnEnterPKGame()"><img src="./img/game_btn.png" style="max-width: 100px;"></img></a>
         </div>
 
@@ -170,6 +219,108 @@
                 <input id="inputbox" type="text" placeholder="輸入訊息..." style="font-size: 11pt;font-family: adobe-std-b;border: none;padding: 0px;background-color: rgba(0, 0, 0, 0);height: 100%;width: 100%;">
             </div>
             <a href="javascript:void(0);" onclick="sendMessage();" style="float: right;display: inline-block;width: 24px;height: 24px;margin-right: 10px;margin-top: 3px;"><img src="./img/send_btn.png" style="max-height: 24px;display: inline-block;x;"></a>
+        </div>
+
+
+        <div id="restaurant_info" style="display: none;position: absolute;top: 0px;width: 100%;z-index: 1000;white-space: nowrap;overflow-x: scroll;margin: 20px 20px;height: calc(100% - 40px);">
+            <div onclick="returnEnterViewRestaurant(1)" class="restaurant_cell">
+                <div style="width: 100%;">
+                    <img src="./img/restaurant/00.png" style="max-width: 100%;"></img>
+                </div>
+                <div style="width: 100%;">
+                    <div id="restaurant_title" style="margin: 10px 15px;display: flex;">
+                        <div style="width: 87%;">
+                            <p style="font-size: 13pt;">一品味碗粿</p>
+                            <p style="font-size: 8pt;">839</p><p style="font-size: 8pt;">收藏</p>
+                        </div>
+                        <div style="display: flex;justify-content: space-between;float: right;width: 38px;margin-top: 8px;">
+                            <img src="./img/share.png" style="max-height: 15px;float: right;">
+                            <img src="./img/like.png" style="max-height: 15px;float: right;">
+                        </div>
+                    </div>
+
+                    <div style="margin: 10px 20px;">
+                        <div>
+                            <div>
+                                <img src="./img/info.png" style="max-height: 18px;">
+                                <p style="font-size: 10pt;transform: translateY(-2px);">店家資訊</p>
+                            </div>
+                            <div style="margin: 0px 8px;color: gray;font-size: 7pt;">
+                                <p>特色食物：碗粿</p><br>
+                                <p>地址：中西區國華街三段177號</p><br>
+                                <p>營業時間：05:00~17:00，週二休息</p><br>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div onclick="returnEnterViewRestaurant(2)" class="restaurant_cell">
+                <div style="width: 100%;">
+                    <img src="./img/restaurant/00.png" style="max-width: 100%;"></img>
+                </div>
+                <div style="width: 100%;">
+                    <div id="restaurant_title" style="margin: 10px 15px;display: flex;">
+                        <div style="width: 87%;">
+                            <p style="font-size: 13pt;">一品味碗粿</p>
+                            <p style="font-size: 8pt;">839</p><p style="font-size: 8pt;">收藏</p>
+                        </div>
+                        <div style="display: flex;justify-content: space-between;float: right;width: 38px;margin-top: 8px;">
+                            <img src="./img/share.png" style="max-height: 15px;float: right;">
+                            <img src="./img/like.png" style="max-height: 15px;float: right;">
+                        </div>
+                    </div>
+
+                    <div style="margin: 10px 20px;">
+                        <div>
+                            <div>
+                                <img src="./img/info.png" style="max-height: 18px;">
+                                <p style="font-size: 10pt;transform: translateY(-2px);">店家資訊</p>
+                            </div>
+                            <div style="margin: 0px 8px;color: gray;font-size: 7pt;">
+                                <p>特色食物：碗粿</p><br>
+                                <p>地址：中西區國華街三段177號</p><br>
+                                <p>營業時間：05:00~17:00，週二休息</p><br>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div onclick="returnEnterViewRestaurant(3)" class="restaurant_cell">
+                <div style="width: 100%;">
+                    <img src="./img/restaurant/00.png" style="max-width: 100%;"></img>
+                </div>
+                <div style="width: 100%;">
+                    <div id="restaurant_title" style="margin: 10px 15px;display: flex;">
+                        <div style="width: 87%;">
+                            <p style="font-size: 13pt;">一品味碗粿</p>
+                            <p style="font-size: 8pt;">839</p><p style="font-size: 8pt;">收藏</p>
+                        </div>
+                        <div style="display: flex;justify-content: space-between;float: right;width: 38px;margin-top: 8px;">
+                            <img src="./img/share.png" style="max-height: 15px;float: right;">
+                            <img src="./img/like.png" style="max-height: 15px;float: right;">
+                        </div>
+                    </div>
+
+                    <div style="margin: 10px 20px;">
+                        <div>
+                            <div>
+                                <img src="./img/info.png" style="max-height: 18px;">
+                                <p style="font-size: 10pt;transform: translateY(-2px);">店家資訊</p>
+                            </div>
+                            <div style="margin: 0px 8px;color: gray;font-size: 7pt;">
+                                <p>特色食物：碗粿</p><br>
+                                <p>地址：中西區國華街三段177號</p><br>
+                                <p>營業時間：05:00~17:00，週二休息</p><br>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

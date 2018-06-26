@@ -92,6 +92,14 @@
 
             $('#block_group').append(new_block);
         }
+
+        function returnEnterViewRestaurant(id) {
+            let res = {
+                'Restaurant_id' : id
+            }
+            res.message_name = 'Profile_Favorite_EnterViewRestaurant';
+            window.parent.postMessage(res, '*');
+        }
     </script>
 </head>
 
@@ -99,7 +107,7 @@
     <div id="wrapper">
 
         <div id="block_group" style="margin: 35px 15px 15px 15px;">
-            <div class="block">
+            <div onclick="returnEnterViewRestaurant(0)" class="block">
                 <div class="block_info">
                     <p class="big_font" name="restaurant_name">一味品碗粿 </p><p class="small_font" name="favorite_cnt">999</p><p class="small_font">收藏</p>
                     <img class="share_and_like" src="./img/like.png"></img>

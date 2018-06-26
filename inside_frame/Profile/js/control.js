@@ -23,6 +23,14 @@ function forwardMessage(e) {
         console.log( 'received Profile_Home_EnterFavorite' );
         redirectPage( 'Favorite' );
     }
+    else if( e.data.message_name == 'Profile_Favorite_EnterViewRestaurant' ) {
+        console.log( 'received Profile_Favorite_EnterViewRestaurant ');
+        let res = {
+            'restaurant_id' : e.data.restaurant_id
+        }
+        res.message_name = 'Profile_Favorite_EnterViewRestaurant';
+        window.parent.postMessage(res, '*');
+    }
 }
 
 function redirectPage(page) {

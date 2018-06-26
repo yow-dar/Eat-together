@@ -19,7 +19,7 @@ var pool = mysql.createPool({
   database:inf._user
 });
 
-app.use(express.static(__dirname + '/app_frame'));//upload static files
+//app.use(express.static(__dirname + '/app_frame'));//upload static files
 app.use(express.static(__dirname + '/public'));//upload static files
 
 app.use(bodyParser.json()); //to support JSON-encoded bodies
@@ -37,7 +37,7 @@ app.post('/signin',function(req,res){
       console.log(result);
       if(result.length == 1){        
         if(password == result[0].passwd)
-          res.send({result:"OK", inf:result.user_id});
+          res.send({result:"OK", inf:result[0].user_id});
         else
           res.send({result:"wrong passwd"});
       }
@@ -101,14 +101,7 @@ app.post('/into_enroll_3',function(req,res){
   });
   res.send("OK");
 });
-/*
-app.post('/enroll_end',function(req,res){
-  //console.log(req.body.img_file);
-  //console.log(req.body);
-  console.log(req);
-  console.log("get");
-});
-*/
+
 app.post('/give_id',function(req,res){
   res.send(client_id.id);
 });
@@ -131,7 +124,7 @@ app.post('/tokensignin',function(req,res){
         if(err) throw err;
         console.log(result);
         if(result.length == 1){        
-            res.send({result:"OK", inf:result.user_id});
+            res.send({result:"OK", inf:result[0].user_id});
             connection.release();
         }
         else if(result.length == 0){

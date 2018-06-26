@@ -1,0 +1,21 @@
+{
+    "name": "EatTogether",
+    "short_name": "EatTogether",
+    "start_url": ".",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#FFFFFF",
+    "theme_color": "#FFFFFF",
+    "icons": [
+        {
+          "src": "/img/logo_180x180.png",
+          "type": "image/png",
+          "sizes": "180x180"
+        },
+        {
+          "src": "/img/logo_640x640.png",
+          "type": "image/png",
+          "sizes": "640x640"
+        }
+    ]
+}

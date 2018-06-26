@@ -1,0 +1,97 @@
+*{
+margin:0px;
+padding:0px;
+}
+body{
+background-color: rgb(239,192,30);
+}
+#logo{
+width:70%;
+margin:15%;
+margin-bottom:5%;
+}
+#input_div{
+width:68%;
+height:20vw;
+border:solid white 3px;
+border-radius:5px;
+margin:0px 15%;
+}
+#input_div img{
+width:8%;
+height:auto;
+margin:3px 5px 0px 5px;
+}
+input{
+font:30%;  
+color:white;
+background-color: rgb(239,192,30);
+border:none;
+width:80%;
+height:40%;
+}
+input::-webkit-input-placeholder{
+color:white;
+}
+input[name=account]{
+border-bottom:solid white 1px;
+}
+button{
+color: rgb(239,192,30);
+background-color:white;
+width:30%;
+height:10vw;
+border:none;
+border-radius:4px;
+}
+#enroll{
+margin:5% 4% 5% 15%;
+}
+#signin{
+margin:5% 15% 5% 4%;
+}
+.signin_icon{
+width:70%;
+height:auto;
+margin:0px 15%;;
+}
+#divide_line_div{
+width:70%;
+height:10vw;
+margin:0px 15%;
+}
+#divide_line_div div{
+position:absolute;
+width:25%;
+height:2px;
+background-color:white;
+margin:3% 0px;
+}
+#divide_line_2{
+right:15%;
+}
+#divide_line_div p{
+position:absolute;
+font:30%;
+width:30%;
+color:white;
+left:47%;
+margin:0px;
+}
+.g-signin2{
+position:absolute;
+margin:0px 15%;
+opacity:0.0;
+z-index:1;
+}
+
+.signin_icon_div{
+width:70%;
+height:20vw;
+margin:0px 15%;
+}
+.signin_icon_div img{
+position:absolute;
+width:70%;
+height:auto;
+}

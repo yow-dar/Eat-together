@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-scope" content="profile email">
+    <link rel="stylesheet" type="text/css" href="first.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script>
+      const fm = document.getElementsByTagName('meta')[0]
+      const m = document.createElement('meta')
+     
+      $.post(
+          '/give_id',
+          {ccc:null},
+          function(data){
+            m.content = data + '.apps.googleusercontent.com';
+          }
+        )
+      m.name = 'google-signin-client_id'
+      fm.parentNode.insertBefore(m, fm)
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <style type="text/css">
+        html,body {
+            -webkit-overflow-scrolling: touch;
+        }
+        @font-face {
+            font-family: "adobe-std-b";
+            src: url(./../../font/adobe-std-b.otf) format("truetype");
+        }
+        p {
+            font-family: "adobe-std-b";
+        }
+    </style>
+    <script>
+      var user_id;
+      /*
+        $(document).ready(function() {
+
+        });
+        function returnSetPairing() {
+            let res = {
+                'SetPairing': 1
+            }
+            res.message_name = 'Home_SetPairing';
+            window.parent.postMessage(res, '*');
+        }
+      */
+    </script>
+
+    <!-- CSS aux -->
+    <script>
+        $(window).on('load', function() {
+            CSSAuxiliary();
+        });
+
+        function CSSAuxiliary() {
+            
+        }
+    </script>
+
+    <style>
+        html,body,#wrapper {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #wrapper {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        p {
+            display: inline-block;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="top_frame"></div>
+    <div id="center_frame">
+      <img id="logo" src="./img/logo-01.png">  
+      <frame>
+        <div id="input_div">
+          <img src="./img/account.png">
+          <input name="account" placeholder="帳號"  autocomplete="off">
+          <img src="./img/password.png">
+          <input name="password" placeholder="密碼" type="password" autocomplete="off">
+        </div>
+        <button id="enroll">註冊</button>
+        <button id="signin">登入</button>
+      </frame>
+      <div id="divide_line_div">
+        <div></div>
+        <p>或</p>
+        <div id="divide_line_2"></div>
+      </div>
+      <img class="signin_icon"  src="./img/fb_signin.png">
+      <div class="signin_icon_div">
+        <img src="./img/google_signin.png">
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+      </div>
+      <script>
+        $(document).ready(function(){
+          $("#signin").click(function(e){
+            e.preventDefault();
+            
+            $.post(
+                "/signin",
+                {
+                  _account: $("input[name='account']").val(),
+                  _password: $("input[name='password']").val(),
+                },
+                function(data){
+                  console.log(data);
+                  if(data.result == "OK"){
+                    console.log("id gotten by post : " + data.inf);
+                    //change page
+                    let res = {
+                      'user_id': data.inf,
+                    }
+                    res.message_name = 'signin_Home';
+                    window.parent.postMessage(res,'*');
+                    
+                  }
+                }
+            );
+          });
+          
+          $("#enroll").click(function(e){
+            console.log("enroll");
+            $("#center_frame").load("./enroll/enroll_1.html");
+            $("link").attr("href","");
+          });
+          
+          function signOut(){
+            var auth2=gapi.auth2.getAuthInstance();
+            auth2.signOut(function(){
+                console.log("User sign out");
+              });
+          }    
+        });
+
+
+        function onSignIn(googleUser) {
+          
+          // Useful data for your client-side scripts:
+          var profile = googleUser.getBasicProfile();
+        
+          // The ID token you need to pass to your backend:
+          var id_token = googleUser.getAuthResponse().id_token;
+          console.log("ID Token: " + id_token);
+        
+          $.post(
+              "/tokensignin",
+              {
+                idtoken:id_token
+              },
+              function(data){
+                if(data.result == "OK"){
+                  console.log(data.inf);
+                  //change page
+                  let res = {
+                    'user_id': data.inf,
+                  }
+                  res.message_name = 'signin_Home';
+                  window.parent.postMessage(res,'*');
+                }
+                else if(data.result == "google_enroll"){
+                  user_id = data.inf;
+                  $("#center_frame").load("./enroll_2.html");
+                  $("link").attr("href","");
+                }
+              }
+          );        
+        };
+      </script>  
+</body>
+
+</html>

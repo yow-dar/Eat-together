@@ -27,27 +27,93 @@
   <body>
     <div id="top_frame"></div>
     <div id="center_frame">
-    <img id="logo" src="./img/logo-01.png">  
-    <frame>
-      <div id="input_div">
-        <img src="./img/account.png">
-        <input name="account" placeholder="帳號"  autocomplete="off">
-        <img src="./img/password.png">
-        <input name="password" placeholder="密碼" type="password" autocomplete="off">
+      <img id="logo" src="./img/logo-01.png">  
+      <frame>
+        <div id="input_div">
+          <img src="./img/account.png">
+          <input name="account" placeholder="帳號"  autocomplete="off">
+          <img src="./img/password.png">
+          <input name="password" placeholder="密碼" type="password" autocomplete="off">
+        </div>
+        <button id="enroll">註冊</button>
+        <button id="signin">登入</button>
+      </frame>
+      <div id="divide_line_div">
+        <div></div>
+        <p>或</p>
+        <div id="divide_line_2"></div>
       </div>
-      <button id="enroll">註冊</button>
-      <button id="signin">登入</button>
-    </frame>
-    <div id="divide_line_div">
-      <div></div>
-      <p>或</p>
-      <div id="divide_line_2"></div>
-    </div>
-    <img class="signin_icon"  src="./img/fb_signin.png">
-    <div class="signin_icon_div">
-    <img src="./img/google_signin.png">
-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-    </div>
+      <img class="signin_icon"  src="./img/fb_signin.png">
+      <div class="signin_icon_div">
+        <img src="./img/google_signin.png">
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+      </div>
+      <script>
+        $(document).ready(function(){
+          $("#signin").click(function(e){
+            e.preventDefault();
+            
+            $.post(
+                "/signin",
+                {
+                  _account: $("input[name='account']").val(),
+                  _password: $("input[name='password']").val(),
+                },
+                function(data){
+                  console.log(data);
+                  if(data.result == "OK"){
+                    window.location.replace("/");
+                    user_id = data.inf;
+                    console.log(user_id);
+                  }
+                }
+            );
+          });
+          
+          $("#enroll").click(function(e){
+            console.log("enroll");
+            $("#center_frame").load("./enroll/enroll_1.html");
+            $("link").attr("href","");
+          });
+          
+          function signOut(){
+            var auth2=gapi.auth2.getAuthInstance();
+            auth2.signOut(function(){
+                console.log("User sign out");
+              });
+          }    
+        });
+
+
+        function onSignIn(googleUser) {
+          
+          // Useful data for your client-side scripts:
+          var profile = googleUser.getBasicProfile();
+        
+          // The ID token you need to pass to your backend:
+          var id_token = googleUser.getAuthResponse().id_token;
+          console.log("ID Token: " + id_token);
+        
+          $.post(
+              "/tokensignin",
+              {
+                idtoken:id_token
+              },
+              function(data){
+                if(data.result == "OK"){
+                  user_id = data.inf;
+                  console.log(user_id);
+                  window.location.replace("/");
+                }
+                else if(data.result == "google_enroll"){
+                  user_id = data.inf;
+                  $("#center_frame").load("./enroll_2.html");
+                  $("link").attr("href","");
+                }
+              }
+          );        
+        };
+      </script>  
     </div>
     <div id="bottom_frame"></div>
     <script id="frame_js" src="main.js"></script>

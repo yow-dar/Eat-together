@@ -8,7 +8,6 @@ var mysql = require('mysql');
 var multer =require('multer');
 var inf = require('./database_inf.json');
 var bodyParser = require('body-parser');
-var food = require('./food.json');
 const port = 10030;
 
 

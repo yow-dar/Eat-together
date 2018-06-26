@@ -101,14 +101,7 @@ app.post('/into_enroll_3',function(req,res){
   });
   res.send("OK");
 });
-/*
-app.post('/enroll_end',function(req,res){
-  //console.log(req.body.img_file);
-  //console.log(req.body);
-  console.log(req);
-  console.log("get");
-});
-*/
+
 app.post('/give_id',function(req,res){
   res.send(client_id.id);
 });

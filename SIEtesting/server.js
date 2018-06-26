@@ -1,51 +1,96 @@
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+app.get('/',(req,res)=>{
+res.sendFile(__dirname + '/chat.html');
+})
 
-var app= require('express')();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var room = {};
-var pending = [];//waiting zone
+app.use(express.static('./',{
+	setHeaders: function(res,path,stat){
+		if(res && path.indexOf("images/" > -1)){
+			res.setHeader("Cache-Control","public")
+		}
+	}
+}))
 
+var userServer = {};
+var userList = {};
+var freeList = [];
+var count = 0;
+io.on('connection', function(socket){
+	count += 1;
+	socket.on('newUser',function(data){
+		var nickname = data.user_name,
+			user_id = data.user_id;
+		socket.id = user_id;
+		userServer[user_id] = socket;
+		userList[user_id] = nickname
+		freeList.push(user_id)
+		io.emit('onlineCount',freeList)
+		io.emit('addCount', count)
+		if(freeList.length > 1){
+			var from = user_id;
+			Arrayremove(freeList,from)
+			if(freeList.length == 1){
+				n = 0
+			}else{
+				n = Math.floor(Math.random() * freeList.length)
+			}
+			var to = freeList[n]
+			Arrayremove(freeList,to)
+			io.emit("getChat",{p1:from,p2:to},userList)
+		}
+	})
+	socket.on('disconnect',function(){ //斷線
+		count -= 1; 
+		var id = socket.id
+		Arrayremove(freeList,id)
+		delete userServer[id]
+		delete userList[id]
+		io.emit('onlineCount',freeList)
+		io.emit('offline',{id:id})
+		io.emit('addCount', count)
+	})
+	socket.on('message',function(data){
+		if(userServer.hasOwnProperty(data.to)){
+			userServer[data.to].emit('getMsg',{msg:data.msg})
+		}else{
+			socket.emit("err",{msg:"对方已经下线或者断开连接"})
+		}
+	})
+	socket.on('sendImg',function(data){
+		if(userServer.hasOwnProperty(data.to)){
+			userServer[data.to].emit('getImg',{msg:data.msg})
+		}else{
+			socket.emit("err",{msg:"对方已经下线或者断开连接"})
+		}
+	})
 
-server.listen(10028, ()=>{
-  console.log('listening on *:10028');
-});
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-});
+  socket.on('cancel',function(){ //斷線
+        count -= 1; 
+        var id = socket.id
+        Arrayremove(freeList,id)
+        delete userServer[id]
+        delete userList[id]
+        io.emit('onlineCount',freeList)
+        io.emit('offline',{id:id})
+        io.emit('addCount', count)
+                                        })
 
-function idGenerate (length) {//隨機產生room id
-  let id = ""
-  let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-  for(let i = 0; i < length; i++ )
-  id += possible.charAt(Math.floor(Math.random() * possible.length))
-  return id
+})
+
+function Arrayremove(array,name){
+	var len = array.length;
+	for(var i=0; i<len; i++){
+		if(array[i] == name){
+			array.splice(i,1)
+			break
+		}
+	}
 }
 
-io.on('connection', function(socket){
-  console.log('a user connected');//a user connected
 
-  socket.on('addChat', () => {
-    if (pending.length()<2) {//如果等待區內使用者只有0~1個
-      pending.push(socket)//將user名push進去(不確定socket內有沒有存user的名字 裡面可能要改成別的)
-    }
-    else {
-      let rid = idGenerate(16)//隨機產生room id
-      room[rid] = [pending.shift(), pending.shift()]//將roomid 配對到的user 存入room之中
-      for (let user in room[rid]) {
-        user._rid = rid
-        user.emit('addComplete', {msg: 'add to chat'}) 
-      } 
-    }
-  })
-
-  socket.on('chat message', (msg)=>{
-    io.emit('chat message', msg);
-    console.log('message: ' + msg);
-  });
-
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
-
+http.listen(10028, function(){
+	console.log('listening on *:10028');
 });
-

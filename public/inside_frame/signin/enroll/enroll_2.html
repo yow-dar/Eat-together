@@ -23,6 +23,7 @@
         _address: $("input[name='address']").val(),
     },
     function(data){
+      user_name=$("input[name='name']").val();
       $("#center_frame").load("./enroll/enroll_3.html");
     }
     );

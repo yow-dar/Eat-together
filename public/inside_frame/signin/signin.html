@@ -37,6 +37,7 @@
     </style>
     <script>
       var user_id;
+      var user_name;
       /*
         $(document).ready(function() {
 
@@ -80,7 +81,6 @@
 </head>
 
 <body>
-    <div id="top_frame"></div>
     <div id="center_frame">
       <img id="logo" src="./img/logo-01.png">  
       <frame>
@@ -121,6 +121,7 @@
                     //change page
                     let res = {
                       'user_id': data.inf,
+                      'user_name': data.name,
                     }
                     res.message_name = 'signin_Home';
                     window.parent.postMessage(res,'*');
@@ -132,8 +133,8 @@
           
           $("#enroll").click(function(e){
             console.log("enroll");
+            $("link").attr("href","./enroll/style_1.css");
             $("#center_frame").load("./enroll/enroll_1.html");
-            $("link").attr("href","");
           });
           
           function signOut(){
@@ -165,19 +166,21 @@
                   //change page
                   let res = {
                     'user_id': data.inf,
+                    'user_name': data.name,
                   }
                   res.message_name = 'signin_Home';
                   window.parent.postMessage(res,'*');
                 }
                 else if(data.result == "google_enroll"){
                   user_id = data.inf;
-                  $("#center_frame").load("./enroll_2.html");
                   $("link").attr("href","");
+                  $("#center_frame").load("./enroll_2.html");
                 }
               }
           );        
         };
       </script>  
-</body>
+    </div>
+  </body>
 
 </html>

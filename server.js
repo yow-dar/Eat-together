@@ -37,7 +37,7 @@ app.post('/signin',function(req,res){
       console.log(result);
       if(result.length == 1){        
         if(password == result[0].passwd)
-          res.send({result:"OK", inf:result[0].user_id});
+          res.send({result:"OK", inf:result[0].user_id, name:result[0].user_name});
         else
           res.send({result:"wrong passwd"});
       }
@@ -124,7 +124,7 @@ app.post('/tokensignin',function(req,res){
         if(err) throw err;
         console.log(result);
         if(result.length == 1){        
-            res.send({result:"OK", inf:result[0].user_id});
+            res.send({result:"OK", inf:result[0].user_id, name:result[0].user_name});
             connection.release();
         }
         else if(result.length == 0){

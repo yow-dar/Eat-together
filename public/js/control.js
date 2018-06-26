@@ -79,6 +79,8 @@ function forwardMessage(e) {
     else if( e.data.message_name == 'signin_Home' ) {
         console.log( 'received signin_Home, user_id=' + e.data.user_id);
         user_id = e.data.user_id;
+        user_name = e.data.user_name;
+        console.log( 'user_name=' + e.data.user_name);
         redirectPage('Home',1);
     }
 }

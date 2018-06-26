@@ -42,6 +42,7 @@ function upload(input){
       success:function(data){
         let res = {
           'user_id': user_id,
+          'user_name': user_name,
         }
         res.message_name = 'signin_Home';
         window.parent.postMessage(res,'*');

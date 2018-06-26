@@ -23,7 +23,7 @@ $(document).ready(function(){
   
   $("#enroll").click(function(e){
     console.log("enroll");
-    $("#center_frame").load("./enroll_1.html");
+    $("#center_frame").load("./enroll/enroll_1.html");
     $("link").attr("href","");
   });
     
@@ -52,7 +52,7 @@ $(document).ready(function(){
       function(data){
         console.log(data);
         if(data.result == "OK"){
-          $("#center_frame").load("./enroll_2.html");
+          $("#center_frame").load("./enroll/enroll_2.html");
           user_id = data.inf;
           console.log("userid = " + user_id);
         }
@@ -65,7 +65,7 @@ $(document).ready(function(){
   $(document).on('click','#enroll_2_next',function(e){  
     e.preventDefault();
     $.post(
-    '/enroll_end',
+    '/into_enroll_3',
     {
         user_id:user_id,
         _user_name: $("input[name='name']").val(),
@@ -74,7 +74,8 @@ $(document).ready(function(){
         _address: $("input[name='address']").val(),
     },
     function(data){
-      window.location.replace("/");
+      //window.location.replace("/");
+      $("#center_frame").load("./enroll/enroll_3.html");
     }
     );
   });
@@ -102,7 +103,7 @@ $(document).ready(function(){
         }
         else if(data.result == "google_enroll"){
           user_id = data.inf;
-          $("#center_frame").load("./enroll_2.html");
+          $("#center_frame").load("./enroll/enroll_2.html");
           $("link").attr("href","");
         }
       }

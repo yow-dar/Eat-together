@@ -5,6 +5,7 @@ var client_id = require('./client_id.json');
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(client_id.id +'.apps.googleusercontent.com');
 var mysql = require('mysql');
+var multer =require('multer');
 var inf = require('./database_inf.json');
 var bodyParser = require('body-parser');
 var food = require('./food.json');
@@ -89,7 +90,7 @@ app.post('/into_enroll_2',function(req,res){
   });
 });
 
-app.post('/enroll_end',function(req,res){
+app.post('/into_enroll_3',function(req,res){
   console.log(req.body);
   var value = [req.body._user_name, req.body._birthday, req.body._gender, req.body._address, req.body.user_id];
   pool.getConnection(function(err,connection){
@@ -101,7 +102,14 @@ app.post('/enroll_end',function(req,res){
   });
   res.send("OK");
 });
-
+/*
+app.post('/enroll_end',function(req,res){
+  //console.log(req.body.img_file);
+  //console.log(req.body);
+  console.log(req);
+  console.log("get");
+});
+*/
 app.post('/give_id',function(req,res){
   res.send(client_id.id);
 });
@@ -160,6 +168,32 @@ app.post('/tokensignin',function(req,res){
   };
   verify().catch(console.error);
 });
+
+var storageZip = multer.diskStorage({
+  destination: function(req,file,cb){
+    cb(null, 'public/upload')  //文件儲存路徑
+  },
+  filename: function(req,file,cb){
+    cb(null,file.fieldname + '-' + Date.now() + '.zip')  //重新命名檔名
+    cb(null,'newfile' + '.jpg')  //重新命名檔名
+  }
+});
+
+var uploadZip = multer({
+  storage:storageZip
+});
+
+//'file' 同 formData.append('file', ... )添加之文件名
+app.post('/enroll_end',uploadZip.single('file'), function(req,res){
+  console.log(req.body);
+  console.log(req.file);
+  fs.rename('public/upload/newfile.jpg','public/upload/' + req.body.user_id + '.jpg',function(err){
+  if(err) throw err;
+  console.log("rename completed");
+  });
+  res.send("OK");
+});
+
 app.listen(port);
 
 //function----------------------------------------------

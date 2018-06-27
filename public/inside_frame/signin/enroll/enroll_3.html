@@ -1,11 +1,19 @@
+<h1>設定個人相片</h1>
+<div id="step_div">
+  <b>3</b><p>/3</p><br>
+  <p>步驟</p>
+</div>
 <form id = "img_preview_form" enctype="multipart/form-data">
-  <input type = "file" id="img_upload" accept="image/*" autocomplete="off">
-  <img style="max-width:60%; max-height:60vw;">
-  <button>確認</button>
+  <div id="img_div">
+    <label><input type = "file" id="img_upload" accept="image/*" autocomplete="off">+</label>
+    <img>
+  </div>
+  <button id="enroll_2_next">完成</button>
 </form>
 <script>
 var upload_file;
   $('body').on('change','#img_preview_form input',function(){  
+    $('label').css('opacity','0.0');
     preview(this);
   });
 

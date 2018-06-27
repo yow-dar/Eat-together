@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
 var fs = require('fs');
+var https = require('https');
+var privatekey = fs.readFileSync('./privatekey.pem','utf8')
+var certificate = fs.readFileSync('./certificate.pem','utf8')
+var credentials ={key:privatekey, cert:certificate};
 var client_id = require('./client_id.json');
+var httpsServer = https.createServer(credentials, app);
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(client_id.id +'.apps.googleusercontent.com');
 var mysql = require('mysql');
@@ -186,8 +191,8 @@ app.post('/enroll_end',uploadZip.single('file'), function(req,res){
   res.send("OK");
 });
 
-app.listen(port);
-
+//app.listen(port);
+httpsServer.listen(port);
 //function----------------------------------------------
 function user_id_generate(){
   let user_id=""

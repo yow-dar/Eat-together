@@ -26,6 +26,7 @@
       function(data){
         console.log(data);
         if(data.result == "OK"){
+          $("link").attr('href',"./enroll/style_2.css");
           $("#center_frame").load("./enroll/enroll_2.html");
           user_id = data.inf;
           console.log("userid = " + user_id);

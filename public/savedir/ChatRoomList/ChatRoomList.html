@@ -1,0 +1,130 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><style></style>
+    <style type="text/css">
+        html,body {
+            -webkit-overflow-scrolling: touch;
+        }
+        @font-face {
+            font-family: "adobe-std-b";
+            src: url(./../../font/adobe-std-b.otf) format("truetype");
+        }
+        p {
+            font-family: "adobe-std-b";
+        }
+    </style>
+    <script>
+        var message_template = document.createElement('div');
+        $(message_template).toggleClass('message');
+        message_template.innerHTML = '<img class="icon" src=""><div class="message_box"><div class="message_name"><p></p></div><div class="message_content"><div><p></p></div></div></div>';
+        
+        function appendMessage(user, text, userid=5) {
+            let res = document.createElement('div');
+            $(res).toggleClass('message');
+            res.innerHTML = message_template.innerHTML;
+            $(res).find('img').attr('src', './img/man' + userid + '.png');
+            $(res).find('.message_name > p').text(user);
+            $(res).find('.message_content > div > p').text(text);
+            $('#chat_history').append( res );
+            $('#chat_history')[0].scrollTop = $('#chat_history')[0].scrollHeight;
+
+            $(res).click( function(e) {
+                returnEnterChatRoom(); // enter chatroom
+            });
+        }
+
+        function appendBar() {
+            let bar = document.createElement('hr');
+            $(bar).addClass('bar');
+            $('#chat_history').append( bar );
+        }
+
+        // get all chats from server, and append it in list
+        function initialize() {
+            for(i = 0 ; i<10 ; ++i) {
+                appendMessage('Brad', 'hihihi');
+                appendBar();
+            }
+            $('.bar').last().remove();
+            $('#chat_history')[0].scrollTop = 0;
+        }
+
+        $(window).on('load', initialize);
+
+        function returnEnterChatRoom(chatroom_id = 0) {
+            let res = {
+                'ChatRoomId' : chatroom_id
+            }
+            res.message_name = 'ChatRoomList_EnterChatRoom';
+            window.parent.postMessage(res, '*');
+        }
+    </script>
+
+    <style>
+        html,body,#wrapper {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #wrapper {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        p {
+            display: inline-block;
+            margin: 0;
+        }
+        .message {
+            margin-bottom: 12px;
+            display: flex;
+            max-height: 55px;
+        }
+        .icon {
+            margin-left: 15px;
+            max-height: 55px;
+            display: inline-block;
+        }
+        .message_box {
+            min-width: 0%;
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .message_name {
+            width: 100%;min-height: 27px;
+        }
+        .message_name > p{
+            font-size: 10pt;
+            margin-left: 10px;
+            margin-top: 5px;
+        }
+        .message_content {
+            min-width: 0%;
+        }
+        .message_content > div {
+            margin: 1px 10px 0px 10px;
+        }
+        .message_content > div > p {
+            font-size: 10pt;
+            vertical-align: middle;
+            color: #00000040;
+        }
+
+        .bar {
+            width: 90%;height: 1px;color: #0000000f;background-color: #0000000f;border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="chat_history" style="overflow: scroll;height: calc(100% - 10px);margin-top: 10px;">
+            
+        </div>
+    </div>
+
+
+
+</body></html>

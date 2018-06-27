@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        html,body {
+            -webkit-overflow-scrolling: touch;
+        }
+        @font-face {
+            font-family: "adobe-std-b";
+            src: url(/font/adobe-std-b.otf) format("truetype");
+        }
+        p {
+            font-family: "adobe-std-b";
+        }
+    </style>
+    <style>
+        html,body,#wrapper {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #wrapper {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        p {
+            display: inline-block;
+            margin: 0;
+        }
+
+        .big_font {
+            font-size: 13pt;
+            margin-left: 5px;
+        }
+        .small_font {
+            font-size: 8pt;
+            margin-left: 5px;
+        }
+        .block {
+            margin-bottom: 18px;
+        }
+        .block_info {
+            margin-bottom: 5px;
+            height: 40px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+        .block_img {
+            width: 40px;
+        }
+        .block_img > img {
+            height: 100%;
+            max-width: 100%;
+        }
+        div[name=star_group] {
+            margin-left: auto;
+            width: 70px;
+            display: flex;
+            justify-content: space-between;
+        }
+        div[name=star_group] > img {
+            max-height: 10px;
+        }
+
+    </style>
+
+    <script>
+        var block_template = '<div class="block_info"><p class="big_font" name="restaurant_name">一味品碗粿 </p><p class="small_font" name="favorite_cnt">999</p><p class="small_font">收藏</p><img class="share_and_like" src="./img/like.png"></img><img class="share_and_like" src="./img/share.png"></img><br><p class="small_font">特色食物：</p><p class="small_font" name="food">碗粿</p><br><p class="small_font">地址：</p><p class="small_font" name="address">中西區國華街三段177號</p><br><p class="small_font">營業時間：</p><p class="small_font" name="time">05:00~17:00</p><br></div><div class="block_img"><img src="./img/restaurant/00.png"></img></div>';
+        function appendBlock(restaurant_name, favorite_cnt, food, address, time, img='./img/restaurant/00.png') {
+            let new_block = $(document.createElement('div'));
+            new_block.addClass('block');
+            new_block[0].innerHTML = block_template;
+
+            console.log(restaurant_name, favorite_cnt, food, address, time, img);
+
+            new_block.find('p[name=restaurant_name]').text(restaurant_name);
+            new_block.find('p[name=favorite_cnt]').text(favorite_cnt);
+            new_block.find('p[name=food]').text(food);
+            new_block.find('p[name=address]').text(address);
+            new_block.find('p[name=time]').text(time);
+            new_block.find('block_img > img').attr('src', img);
+
+            $('#block_group').append(new_block);
+        }
+
+        function editStarNumber(block, num) {
+            if(num < 0 || num > 5)
+                return;
+            let imgs = $(block).find('div[name=star_group]').find('img');
+            for(i=0;i<num;++i)
+                imgs.eq(i).attr('src', './img/star_full.png');
+            for(i=num;i<5;++i)
+                imgs.eq(i).attr('src', './img/star.png');
+        }
+
+        var block_template = '<div class="block_info"><div class="block_img"><img src="./img/man1.png"></img></div><div><p name="comment_user" class="big_font" style="color: gray;transform: translateY(-5px);">Jerry Chen</p><br><p name="comment_date" class="small_font" style="color: gray;transform: translateY(-10px);">3月22日, 2018</p></div><div name="star_group"><img src="./img/star_full.png"><img src="./img/star_full.png"><img src="./img/star_full.png"><img src="./img/star_full.png"><img src="./img/star.png"></div></div><p class="small_font" name="comment_content">聊得很開心，拍照很厲害:)</p>';
+        function appendBlock(comment_user, comment_date, star_cnt, comment_content) {
+            let newblock = $(document.createElement('div'));
+            newblock.addClass('block');
+            newblock[0].innerHTML = block_template;
+            newblock.find('p[name=comment_user]').text(comment_user);
+            newblock.find('p[name=comment_date]').text(comment_date);
+            editStarNumber(newblock, star_cnt);
+            newblock.find('p[name=comment_content]').text(comment_content);
+            $('#block_group').append(newblock);
+
+            $('#comment_cnt_text').text( $('.block').length );
+        }
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <div id="block_group" style="margin: 35px 15px 15px 15px;">
+            <p class="big_font" style="margin-bottom: 10px;">我的評論(</p><p id="comment_cnt_text" class="big_font" style="margin-left: 0px;">1</p><p class="big_font" style="margin-left: 0px;">)</p><br>
+            <div class="block">
+                <div class="block_info">
+                    <div class="block_img">
+                        <img src="./img/man1.png"></img>
+                    </div>
+                    <div>
+                        <p name="comment_user" class="big_font" style="color: gray;transform: translateY(-5px);">Jerry Chen</p><br>
+                        <p name="comment_date" class="small_font" style="color: gray;transform: translateY(-10px);">3月22日, 2018</p>
+                    </div>
+                    <div name="star_group">
+                        <img src="./img/star_full.png">
+                        <img src="./img/star_full.png">
+                        <img src="./img/star_full.png">
+                        <img src="./img/star_full.png">
+                        <img src="./img/star.png">
+                    </div>
+                </div>
+                <p class="small_font" name="comment_content">聊得很開心，拍照很厲害:)</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

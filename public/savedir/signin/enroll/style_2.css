@@ -1,0 +1,49 @@
+*{
+margin:0px;
+padding:0px;
+}
+body{
+background-color: white;
+}
+h1{
+font-size:8vw;  
+color: rgb(239,192,30);
+padding:20% 0% 10% 15%;
+}
+#step_div{
+position:absolute;
+color:rgb(113,113,113);
+width:30%;
+height:30vw;
+top:20%;
+right:0px;
+}
+b{
+font-size:8vw;
+padding:0px 2vw 0px 0px;
+}
+p{
+font-size:4vw;
+}
+label{
+font-size:3.7vw;  
+width:70%;
+margin:0px 15%;
+}
+input,select{
+font-size:3.5vw;  
+border:none;
+width:70%;
+height:5vw;
+margin:1% 15% 5% 15%;
+border-bottom:solid rgb(113,113,113) 0.5vw;
+}
+button{
+background-color: rgb(239,192,30);
+color:white;
+width:60%;
+height:10vw;
+border:none;
+border-radius:6px;
+margin:10% 20%;
+}

@@ -1,0 +1,43 @@
+<h1>讓我們<br>更認識你/妳!</h1>
+<div id="step_div">
+  <b>2</b><p>/3</p><br>
+  <p>步驟</p>
+</div>
+  <frame id="enroll_2">
+    <label>姓名</label>
+    <input placeholder="請輸入你的姓名" name="name" autocomplete="off">
+    <label>生日</label>
+    <input type="date" placeholder="請輸入你的生日" name="birthday" autocomplete="off">
+    <label>性別</label>
+    <select name="gender" placeholder="請選擇你的性別" autocomplete="off">
+      <option>男生</option>
+      <option>女生</option>
+    </select>
+    <label>所在地</label>
+    <select name="address" placeholder="請選擇你的所在地" autocomplete="off">
+      <option>台南</option>
+    </select>
+    <button id="enroll_2_next">下一步</button>
+  </frame>
+<script>
+  $(document).on('click','#enroll_2_next',function(e){  
+    e.preventDefault();
+    $.post(
+    '/into_enroll_3',
+    {
+        user_id:user_id,
+        _user_name: $("input[name='name']").val(),
+        _birthday: $("input[name='birthday']").val(),
+        //_gender: $("select[name='gender']").val(),
+        //_address: $("select[name='address']").val(),
+        _gender: "",
+        _address: "",
+    },
+    function(data){
+      user_name=$("input[name='name']").val();
+      $("link").attr('href',"./enroll/style_3.css");
+      $("#center_frame").load("./enroll/enroll_3.html");
+    }
+    );
+  });
+</script>

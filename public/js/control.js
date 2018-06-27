@@ -1,6 +1,7 @@
 // what the page should the current page go back to
 var back_page = {
     'ChatRoom' : 'ChatRoomList',
+    'ViewRestaurant' : 'Profile'
 }
 
 function back_btn_clicked() {
@@ -51,8 +52,13 @@ function forwardMessage(e) {
         console.log( 'received PairingWaiting_Cancel' );
         redirectPage( 'PairingSettings' );
     }
-    else if( e.data.message_name == 'PairingWaiting_Succeeded' ) {
-        console.log( 'received PairingWaiting_Succeeded' );
+    else if( e.data.message_name == 'PairingWaiting_ComfirmPairing' ) {
+        console.log( 'received PairingWaiting_ComfirmPairing' );
+        redirectPage( 'PairingSucceeded' );
+    }
+
+    else if( e.data.message_name == 'PairingSucceeded_EnterChatRoom' ) {
+        console.log( 'received PairingSucceeded_EnterChatRoom' );
         redirectPage( 'ChatRoom' );
     }
 
@@ -67,6 +73,11 @@ function forwardMessage(e) {
         redirectPage( 'PKGame' );
     }
 
+    else if( e.data.message_name == 'ChatRoom_EnterViewRestaurant') {
+        console.log( 'received ChatRoom_EnterViewRestaurant' );
+        redirectPage( 'ViewRestaurant' );
+    }
+
     else if( e.data.message_name == 'PKGame_Replay' ) {
         console.log( 'received PKGame_Replay, opponent=' + e.data.opponent);
         redirectPage( 'PKGame', 1 );
@@ -76,11 +87,14 @@ function forwardMessage(e) {
         console.log( 'received PKGame_Replay, chatroom_id=' + e.data.chatroom_id);
         redirectPage( 'ChatRoom' );
     }
+
+    else if( e.data.message_name == 'Profile_Favorite_EnterViewRestaurant' ) {
+        console.log( 'received Profile_Favorite_EnterViewRestaurant' );
+        redirectPage( 'ViewRestaurant' );
+    }
     else if( e.data.message_name == 'signin_Home' ) {
-        console.log( 'received signin_Home, user_id=' + e.data.user_id);
         user_id = e.data.user_id;
         user_name = e.data.user_name;
-        console.log( 'user_name=' + e.data.user_name);
         redirectPage('Home',1);
     }
 }

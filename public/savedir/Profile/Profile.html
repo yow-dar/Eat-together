@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    
+    <script>
+        var current_loaded_page = 'Home';
+    </script>
+
+    <script src="./js/control.js"></script>
+    <link rel="stylesheet" href="./css/mainframe.css">
+    <script src="./js/adjustcontrols.js"></script>
+    <script id="iframe_pageinfo" src="./inside_frame/Home/pageinfo.js"></script> <!-- a js_file at './inside_frame/Page/pageinfo.js' ; load the file, and run adjustControl() to adjust controls -->
+
+    <style type="text/css">
+        html,body {
+            -webkit-overflow-scrolling: touch;
+        }
+        @font-face {
+            font-family: "adobe-std-b";
+            src: url(./../../font/adobe-std-b.otf) format("truetype");
+        }
+        p {
+            font-family: "adobe-std-b";
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            //returnRequireFullScreen();
+            //window.onbeforeunload = returnLeaveFullScreen;
+        });
+        /*
+        function returnRequireFullScreen() {
+            let res = {
+                'fullscreen': 2
+            }
+            res.message_name = 'FullScreenControl';
+            window.parent.postMessage(res, '*');
+        }
+        function returnLeaveFullScreen() {
+            let res = {
+                'fullscreen': 0
+            }
+            res.message_name = 'FullScreenControl';
+            window.parent.postMessage(res, '*');
+        }
+        */
+
+
+
+    </script>
+
+    <!-- CSS aux -->
+    <script>
+        
+    </script>
+
+    <style>
+        html,body,#wrapper {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #wrapper {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        p {
+            display: inline-block;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <div>
+                <ul style="transform: translateY(20px);">
+                    <li id="back_btn" class="floatleft" style="display: none;"><a href="javascript:void(0);" onclick="back_btn_clicked()"><img src="./img/header/back_btn.png"></img></a></li>
+                </ul>
+            </div>
+            <div>
+                <ul style="transform: translateY(20px);">
+                    <li id="setting_btn" class="floatright" style="display: none;"><a href="javascript:void(0);"><img src="./img/header/setting_btn.png"></img></a></li>
+                </ul>
+            </div>
+
+            <img id="user_icon" src="./img/man1.png" style="position: absolute;width: 75px;top: 100px;left: 25px;border: solid;border-radius: 100px;border-color: white;border-width: 2px;z-index: 2;"></img>
+            <p id="user_name" style="position: absolute;left: 120px;top: 110px;font-size: 14pt;">Larry Wu</p>
+            <p id="user_location" style="position: absolute;left: 120px;top: 137px;font-size: 8pt;">Tainan, 25</p>
+        </div> <!-- header -->
+
+        <div id="content_current" class="content">
+            <script>
+                redirectPage('Home');
+            </script>
+            <iframe id="content_loaded" src="./inside_frame/Home/Home.html"></iframe>
+        </div> <!-- content -->
+        
+    </div>
+</body>
+
+</html>

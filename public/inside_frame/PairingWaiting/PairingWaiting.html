@@ -19,28 +19,6 @@
         }
     </style>
     <script>
-        $(document).ready(function() {
-            //returnRequireFullScreen();
-            //window.onbeforeunload = returnLeaveFullScreen;
-             // <body onbeforeunload="returnLeaveFullScreen()">
-        });
-        /*
-        function returnRequireFullScreen() {
-            let res = {
-                'fullscreen': 3 //bottom fullscreen
-            }
-            res.message_name = 'FullScreenControl';
-            window.parent.postMessage(res, '*');
-        }
-        function returnLeaveFullScreen() {
-            let res = {
-                'fullscreen': 0
-            }
-            res.message_name = 'FullScreenControl';
-            window.parent.postMessage(res, '*');
-        }
-        */
-
         function returnCancel() {
             let res = {
                 'cancel': 1
@@ -48,25 +26,62 @@
             res.message_name = 'PairingWaiting_Cancel';
             window.parent.postMessage(res, '*');
         }
-        function returnSucceeded() {
-            let res = {
-                'succeeded': 1
-            }
-            res.message_name = 'PairingWaiting_Succeeded';
-            window.parent.postMessage(res, '*');
-        }
 
         $(window).on('load', setTimeout( function() {
-            returnSucceeded();
+            pairingSucceeded();
         }, 5000));
 
     </script>
 
     <script>
-        function failPairing() {
+        function pairingFailed() {
             $('#darkmask').addClass( 'dark' );
+            $('#succeededmsg').hide();
             $('#failedmsg').show();
         }
+
+        function pairingSucceeded(
+            partner_name='Sara Lin',
+            partner_icon='./img/man3.png',
+            partner_info='女,27,台南',
+            star_cnt=3,
+            comment_cnt=14,
+            aboutme_text='hi',
+            hobby_text='none',
+            message_text='helloworld'
+        ) {
+            $('#waiting').hide();
+
+            $('#partner_name').text(partner_name);
+            $('#partner_info').text(partner_info);
+            editStarNumber(3);
+            $('#comment_cnt').text(comment_cnt);
+            $('#aboutme_text').text(aboutme_text);
+            $('#hobby_text').text(hobby_text);
+            $('#message_text').text(message_text);
+
+            $('#succeededmsg').show();
+        }
+
+        function editStarNumber(num) {
+            if(num < 0 || num > 5)
+                return;
+            let imgs = $('#star_group > img');
+            for(i=0;i<num;++i)
+                imgs.eq(i).attr('src', './img/star_full.png')
+            for(i=num;i<5;++i)
+                imgs.eq(i).attr('src', './img/star.png')
+        }
+
+        function returnConfirmPairing() {
+            let res = {
+                'partner': 'Sara'
+            }
+            res.message_name = 'PairingWaiting_ComfirmPairing';
+            window.parent.postMessage(res, '*');
+        }
+
+
     </script>
 
     <style>
@@ -158,26 +173,75 @@
             z-index: 500;
             background-color: rgba(0, 0, 0, 0.6);
         }
+
+        #star_group > img {
+            max-height: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div id="wrapper">
-        <div style="z-index: -1;position: absolute;top: 25%;width: 100%;text-align: center;">
-            <img src="./img/meal.png" style="max-width: 75px;"></img>
-            <img id="orbit" src="./img/orbit.png"></img>
-            <img id="halo" src="./img/halo.png"></img>
+        <div id="waiting">
+            <div style="z-index: -1;position: absolute;top: 25%;width: 100%;text-align: center;">
+                <img src="./img/meal.png" style="max-width: 75px;"></img>
+                <img id="orbit" src="./img/orbit.png"></img>
+                <img id="halo" src="./img/halo.png"></img>
+            </div>
+            <div style="position: absolute;top: 55%;width: 100%;text-align: center;">
+                <p style="color: gray;font-size: 14pt;">配對中</p>
+            </div>
+            <div style="position: absolute;top: 75%;width: 100%;text-align: center;">
+                <a href="javascript:void(0);" onclick="returnCancel()"><img src="./img/cancel_btn.jpg" style="max-width: 125px;"></img></a>
+            </div>
         </div>
-        <div style="position: absolute;top: 55%;width: 100%;text-align: center;">
-            <p style="color: gray;font-size: 14pt;">配對中</p>
-        </div>
-        <div style="position: absolute;top: 75%;width: 100%;text-align: center;">
-            <a href="javascript:void(0);" onclick="returnCancel()"><img src="./img/cancel_btn.jpg" style="max-width: 125px;"></img></a>
-        </div>
+
         <div id="darkmask" class="mask"></div>
 
         <div id="failedmsg" style="display: none;position: absolute;z-index: 1000;left: calc(50% - 125px);top: 20%;width: 249px;height: 256px;margin:  auto;background-image: url(./img/fail.png);background-size: cover;">
             <a href="javascript:void(0);" onclick="returnCancel()"><img src="./img/retry_btn.png" style="max-width: 125px;position: absolute;left: calc(50% - 62.5px);bottom: -10px;"></img></a>
+        </div>
+
+        <div id="succeededmsg" style="display: none;position: absolute;z-index: 1000;left: calc(50% - 125px);top: 15%;width: 250px;height: 350px;margin:  auto;box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);border-style: hidden;border-radius: 20px;">
+            <img id="partner_icon" style="max-width: 50px;border-style: solid;border-radius: 100px;border-color: #E6EB45;border-width: 2px;left: 40px;top: 10px;position: absolute;" src="./img/man1.png"></img>
+            <p id="partner_name" style="font-size: 11pt;top: 13px;left: 110px;position: absolute;">Sara Lin</p>
+            <p id="partner_info" style="position: absolute;font-size: 8pt;left: 110px;top: 35px;">女, 27, 台南</p>
+            <div id="star_group" style="position: absolute;left: 108px;top: 53px;">
+                <img src="./img/star_full.png"></img>
+                <img src="./img/star_full.png"></img>
+                <img src="./img/star_full.png"></img>
+                <img src="./img/star_full.png"></img>
+                <img src="./img/star_full.png"></img>
+            </div>
+            <div style="text-align: right;">
+                <p id="comment_cnt" style="position: absolute;font-size: 8pt;left: 185px;top: 53px;color: #F1E00B;width: 18px;">14</p>
+                <p style="position: absolute;font-size: 8pt;left: 205px;top: 53px;color: #F1E00B;">則評論</p>
+            </div>
+
+            <div id="info_detail" style="position: absolute;top: 80px;margin: 0 15px;">
+                <div id="aboutme">
+                    <img style="max-height: 10px;" src="./img/aboutme.png">
+                    <p style="font-size: 8pt;">關於我</p><br>
+                    <p id="aboutme_text" style="font-size: 6pt;margin: 0px 7px;">我叫Sara，希望能夠認識新朋友，喜歡看電影、植物、運動，不挑食幾乎什麼都可以接受。</p>
+                </div>
+                
+                <div id="hobby" style="margin-top: 10px;">
+                    <img style="max-height: 10px;" src="./img/smile.png">
+                    <p style="font-size: 8pt;">興趣</p><br>
+                    <p id="hobby_text" style="font-size: 6pt;margin: 0px 7px;">攝影, 閱讀, 旅行, 寵物, 健身</p>
+                </div>
+
+                <div id="message" style="margin-top: 10px;">
+                    <img style="max-height: 10px;" src="./img/message.png">
+                    <p style="font-size: 8pt;">想和你說</p><br>
+                    <p id="message_text" style="font-size: 6pt;margin: 0px 7px;">前陣子都在下雨，所以想找些時間出去走走晃晃，很開心認識你！</p>
+                </div>
+            </div>
+            
+            <div style="position: absolute;height: 40px;width: 250px;top: 290px;">
+                <a onclick="returnConfirmPairing();" href="javascript:void(0)"><img src="./img/pair_btn.png" style="max-height: 40px;margin-left: 10px;"></a>
+                <a onclick="pairingFailed();" href="javascript:void(0)"><img src="./img/pass_btn.png" style="max-height: 40px;float: right;margin-right: 10px;"></a>
+            </div>
         </div>
     </div>
 </body>

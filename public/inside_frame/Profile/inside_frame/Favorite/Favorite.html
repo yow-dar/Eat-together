@@ -100,6 +100,11 @@
             res.message_name = 'Profile_Favorite_EnterViewRestaurant';
             window.parent.postMessage(res, '*');
         }
+        
+        $(document).ready( function() {
+            appendBlock('炒鱔魚專家', 629, '炒鱔魚、烏魚子', '中西區大同路一段146號', '11:00~13:30,16:00~22:00', './img/restaurant/07.png');
+            appendBlock('海龍肉粽', 325, '肉粽', '中西區金華路四段134號', '24hr', './img/restaurant/08.png');
+        });
     </script>
 </head>
 
@@ -109,7 +114,7 @@
         <div id="block_group" style="margin: 35px 15px 15px 15px;">
             <div onclick="returnEnterViewRestaurant(0)" class="block">
                 <div class="block_info">
-                    <p class="big_font" name="restaurant_name">一味品碗粿 </p><p class="small_font" name="favorite_cnt">999</p><p class="small_font">收藏</p>
+                    <p class="big_font" name="restaurant_name">一味品碗粿 </p><p class="small_font" name="favorite_cnt">839</p><p class="small_font">收藏</p>
                     <img class="share_and_like" src="./img/like.png"></img>
                     <img class="share_and_like" src="./img/share.png"></img>
                     <br>

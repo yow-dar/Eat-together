@@ -22,14 +22,14 @@
 <script>
   $(document).on('click','#enroll_2_next',function(e){  
     e.preventDefault();
+    console.log(user_id);
+    console.log(user_name);
     $.post(
     '/into_enroll_3',
     {
         user_id:user_id,
         _user_name: $("input[name='name']").val(),
         _birthday: $("input[name='birthday']").val(),
-        //_gender: $("select[name='gender']").val(),
-        //_address: $("select[name='address']").val(),
         _gender: "",
         _address: "",
     },

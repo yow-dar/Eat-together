@@ -11,8 +11,9 @@
   <button id="enroll_2_next">完成</button>
 </form>
 <script>
-var upload_file;
-  $('body').on('change','#img_preview_form input',function(){  
+  var upload_file;
+  $('body').on('change','#img_preview_form input',function(e){  
+    e.preventDefault();
     $('label').css('opacity','0.0');
     preview(this);
   });

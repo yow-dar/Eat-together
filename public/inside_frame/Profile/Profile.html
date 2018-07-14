@@ -68,9 +68,9 @@
                 </ul>
             </div>
 
-            <img id="user_icon" src="./img/man1.png" style="position: absolute;width: 75px;top: 100px;left: 25px;border: solid;border-radius: 100px;border-color: white;border-width: 2px;z-index: 2;"></img>
-            <p id="user_name" style="position: absolute;left: 120px;top: 110px;font-size: 14pt;">Larry Wu</p>
-            <p id="user_location" style="position: absolute;left: 120px;top: 137px;font-size: 8pt;">Tainan, 25</p>
+            <img id="user_icon" src="./img/man1.png"  style="position: absolute;background-color:white;width: 75px;height:75px;overflow:hidden;top: 100px;left: 25px;border: solid;border-radius: 100px;border-color: white;border-width: 2px;z-index: 2;"></img>
+            <p id="user_name" style="position: absolute;left: 120px;top: 110px;font-size: 14pt;">Handsome</p>
+            <p id="user_location" style="position: absolute;left: 120px;top: 137px;font-size: 8pt;">Tainan,25</p>
         </div> <!-- header -->
 
         <div id="content_current" class="content">
@@ -80,7 +80,16 @@
             <iframe id="content_loaded" src="./inside_frame/Home/Home.html"></iframe>
         </div> <!-- content -->
         
-    </div>
+      </div>
+      <script>
+        /*TO demo
+        console.log(window.parent.document.getElementById('save_user_name').innerHTML);
+        var user_id = window.parent.document.getElementById('save_user_id').innerHTML;
+        $('#user_icon').attr('src','./../../upload/'+user_id +'.jpg');
+        var user_name = window.parent.document.getElementById('save_user_name').innerHTML;
+        $('#user_name').text(user_name);
+        *///To demo end
+      </script>
 </body>
 
 </html>

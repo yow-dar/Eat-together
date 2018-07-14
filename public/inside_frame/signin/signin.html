@@ -86,9 +86,9 @@
       <frame>
         <div id="input_div">
           <img src="./img/account.png">
-          <input name="account" placeholder="帳號"  autocomplete="off">
+          <input name="account" placeholder="帳號"  value="Eat" autocomplete="off">
           <img src="./img/password.png">
-          <input name="password" placeholder="密碼" type="password" autocomplete="off">
+          <input name="password" placeholder="密碼" type="password" value="together" autocomplete="off">
         </div>
         <button id="enroll">註冊</button>
         <button id="signin">登入</button>
@@ -101,13 +101,23 @@
       <img class="signin_icon"  src="./img/fb_signin.png">
       <div class="signin_icon_div">
         <img src="./img/google_signin.png">
-        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+        <!-- div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div-->
       </div>
       <script>
         $(document).ready(function(){
           $("#signin").click(function(e){
             e.preventDefault();
             
+           //To demo
+            let res = {
+              'user_id': 0,
+              'user_name': "",
+            }
+            res.message_name = 'signin_Home';
+            window.parent.postMessage(res,'*');
+            return;
+           //To demo end
+
             $.post(
                 "/signin",
                 {
@@ -121,7 +131,7 @@
                     //change page
                     let res = {
                       'user_id': data.inf,
-                      'user_name': data.name,
+                      'user_name': data._name,
                     }
                     res.message_name = 'signin_Home';
                     window.parent.postMessage(res,'*');
@@ -130,22 +140,25 @@
                 }
             );
           });
-          
+
+          /*TO demo
           $("#enroll").click(function(e){
             console.log("enroll");
             $("link").attr("href","./enroll/style_1.css");
             $("#center_frame").load("./enroll/enroll_1.html");
           });
-          
+
           function signOut(){
             var auth2=gapi.auth2.getAuthInstance();
             auth2.signOut(function(){
                 console.log("User sign out");
               });
           }    
+          *///To demo end
         });
 
 
+        /*TO demo
         function onSignIn(googleUser) {
           
           // Useful data for your client-side scripts:
@@ -153,7 +166,7 @@
         
           // The ID token you need to pass to your backend:
           var id_token = googleUser.getAuthResponse().id_token;
-          console.log("ID Token: " + id_token);
+          //console.log("ID Token: " + id_token);
         
           $.post(
               "/tokensignin",
@@ -162,23 +175,24 @@
               },
               function(data){
                 if(data.result == "OK"){
-                  console.log(data.inf);
+                  //console.log(data.inf);
                   //change page
                   let res = {
                     'user_id': data.inf,
-                    'user_name': data.name,
+                    'user_name': data._name,
                   }
                   res.message_name = 'signin_Home';
                   window.parent.postMessage(res,'*');
                 }
                 else if(data.result == "google_enroll"){
                   user_id = data.inf;
-                  $("link").attr("href","");
-                  $("#center_frame").load("./enroll_2.html");
+                  $("link").attr('href',"./enroll/style_2.css");
+                  $("#center_frame").load("./enroll/enroll_2.html");
                 }
               }
           );        
         };
+        *///To demo end
       </script>  
     </div>
   </body>

@@ -5,17 +5,20 @@ var https = require('https');
 var privatekey = fs.readFileSync('./privatekey.pem','utf8')
 var certificate = fs.readFileSync('./certificate.pem','utf8')
 var credentials ={key:privatekey, cert:certificate};
+/*TO demo
 var client_id = require('./client_id.json');
-var httpsServer = https.createServer(credentials, app);
+var inf = require('./database_inf.json');
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(client_id.id +'.apps.googleusercontent.com');
 var mysql = require('mysql');
 var multer =require('multer');
-var inf = require('./database_inf.json');
+*///To demo end
+var httpsServer = https.createServer(credentials, app);
 var bodyParser = require('body-parser');
-const port = 10030;
+const port = 10021
 
-
+app.use(express.static(__dirname + '/public'));//upload static files
+/*TO demo
 var pool = mysql.createPool({
   connectionLimit : 10,
   host:inf._host,
@@ -23,9 +26,6 @@ var pool = mysql.createPool({
   password:inf._password,
   database:inf._user
 });
-
-//app.use(express.static(__dirname + '/app_frame'));//upload static files
-app.use(express.static(__dirname + '/public'));//upload static files
 
 app.use(bodyParser.json()); //to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({extended : false})); //to support URL-encoded bodies
@@ -42,7 +42,7 @@ app.post('/signin',function(req,res){
       console.log(result);
       if(result.length == 1){        
         if(password == result[0].passwd)
-          res.send({result:"OK", inf:result[0].user_id, name:result[0].user_name});
+          res.send({result:"OK", inf:result[0].user_id, _name:result[0].user_name});
         else
           res.send({result:"wrong passwd"});
       }
@@ -129,7 +129,7 @@ app.post('/tokensignin',function(req,res){
         if(err) throw err;
         console.log(result);
         if(result.length == 1){        
-            res.send({result:"OK", inf:result[0].user_id, name:result[0].user_name});
+            res.send({result:"OK", inf:result[0].user_id, _name:result[0].user_name});
             connection.release();
         }
         else if(result.length == 0){
@@ -190,6 +190,7 @@ app.post('/enroll_end',uploadZip.single('file'), function(req,res){
   });
   res.send("OK");
 });
+*///To demo end
 
 //app.listen(port);
 httpsServer.listen(port);

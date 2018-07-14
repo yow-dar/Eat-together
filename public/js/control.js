@@ -93,9 +93,14 @@ function forwardMessage(e) {
         redirectPage( 'ViewRestaurant' );
     }
     else if( e.data.message_name == 'signin_Home' ) {
+        /*TO demo
         user_id = e.data.user_id;
         user_name = e.data.user_name;
+        console.log(user_name);
+        *///To demo end
         redirectPage('Home',1);
+        $('#save_user_id').text(user_id);
+        $('#save_user_name').text(user_name);
     }
 }
 
@@ -109,4 +114,5 @@ function redirectPage(page, refresh=0) {
     newscript.src = './inside_frame/' + page + '/pageinfo.js';
     document.head.appendChild(newscript);
     $('#content_loaded').attr('src', './inside_frame/' + page + '/' + page + '.html');
+
 }

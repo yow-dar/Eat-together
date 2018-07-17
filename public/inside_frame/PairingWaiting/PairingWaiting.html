@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <style type="text/css">
         html,body {
@@ -27,10 +28,6 @@
             window.parent.postMessage(res, '*');
         }
 
-        $(window).on('load', setTimeout( function() {
-            pairingSucceeded();
-        }, 5000));
-
     </script>
 
     <script>
@@ -40,38 +37,6 @@
             $('#failedmsg').show();
         }
 
-        function pairingSucceeded(
-            partner_name='Sara Lin',
-            partner_icon='./img/man2.png',
-            partner_info='女,27,台南',
-            star_cnt=4,
-            comment_cnt=17,
-            aboutme_text='我叫Sara，希望能夠認識新朋友，喜歡看電影、植物、運動，不挑食幾乎什麼都可以接受。',
-            hobby_text='攝影, 閱讀, 旅行, 寵物, 健身',
-            message_text='前陣子都在下雨，所以想找些時間出去走走晃晃，很開心認識你！'
-        ) {
-            $('#waiting').hide();
-
-            $('#partner_name').text(partner_name);
-            $('#partner_info').text(partner_info);
-            editStarNumber(3);
-            $('#comment_cnt').text(comment_cnt);
-            $('#aboutme_text').text(aboutme_text);
-            $('#hobby_text').text(hobby_text);
-            $('#message_text').text(message_text);
-
-            $('#succeededmsg').show();
-        }
-
-        function editStarNumber(num) {
-            if(num < 0 || num > 5)
-                return;
-            let imgs = $('#star_group > img');
-            for(i=0;i<num;++i)
-                imgs.eq(i).attr('src', './img/star_full.png')
-            for(i=num;i<5;++i)
-                imgs.eq(i).attr('src', './img/star.png')
-        }
 
         function returnConfirmPairing() {
             let res = {
@@ -81,6 +46,7 @@
             window.parent.postMessage(res, '*');
         }
 
+   setTimeout(function(){ returnConfirmPairing()}, 3000);
 
     </script>
 
